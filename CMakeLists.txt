@@ -37,7 +37,7 @@ find_package(
              3DExtras
              3DRender
              3DExtras
-             REQUIRED)
+  REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
