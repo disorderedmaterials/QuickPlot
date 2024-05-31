@@ -4,26 +4,29 @@ import com.projectdissolve
 
 Model {
     id: root
-    property double thickness
-    property list<double> xs
-    property list<double> ys
-    property Axis xAxis
-    property Axis yAxis
+
     property color color
+    property double thickness
+    property Axis xAxis
+    property list<double> xs
+    property Axis yAxis
+    property list<double> ys
 
     geometry: LineGeometry {
         id: plotLine
+
         thickness: root.thickness
-        xs: root.xs
-        ys: root.ys
         xAxis: root.xAxis
+        xs: root.xs
         yAxis: root.yAxis
+        ys: root.ys
     }
     materials: [
         PrincipledMaterial {
             id: frame_material
-            baseColor: root.color
+
             alphaMode: PrincipledMaterial.Opaque
+            baseColor: root.color
         }
     ]
 }
