@@ -2,13 +2,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     future.url = "github:NixOS/nixpkgs/nixos-unstable";
-    outdated.url = "github:NixOS/nixpkgs/nixos-21.05";
     # qt-idaaas.url = "github:disorderedmaterials/qt-idaaas";
     nixGL-src.url = "github:guibou/nixGL";
     nixGL-src.flake = false;
   };
   outputs =
-    { self, nixpkgs, future, outdated, flake-utils, bundlers, nixGL-src }:
+    { self, nixpkgs, future, flake-utils, bundlers, nixGL-src }:
     let
 
       version = "0.1";
@@ -51,8 +50,7 @@
           cmake-language-server
           distcc
           gdb
-          openmpi
-          tbb
+          next.git-cliff
           valgrind
         ]);
         shellHook = ''
