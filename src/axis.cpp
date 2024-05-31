@@ -4,7 +4,7 @@
 #include <iostream>
 
 Axis::Axis()
-    : minimum_(-1), maximum_(1), thickness_(0.001), direction_(false),
+    : direction_(false), minimum_(-1), maximum_(1), thickness_(0.001),
       tickLabels_(*this) {
   updateData();
   connect(this, &Axis::dataChanged, this, &Axis::updateData);

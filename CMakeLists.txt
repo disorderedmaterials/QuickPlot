@@ -58,7 +58,7 @@ endif(WIN32)
 
 # -- Unix
 if(UNIX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Werror -Wall -Wextra")
 endif(UNIX)
 
 # -- OSX
