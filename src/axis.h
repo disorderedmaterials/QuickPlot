@@ -17,13 +17,14 @@ class Axis : public QQuick3DGeometry
 
     public:
     Axis();
-    std::vector<float> convert(QList<double> values);
+    virtual std::vector<float> convert(QList<double> values) const;
     AxisTickLabels *tickLabels();
     bool direction() const;
     double minimum() const;
     double maximum() const;
     int tickCount() const;
     void setTickCount(const int count);
+    virtual double tick(int index, int count) const;
 
     Q_SIGNALS:
     void dataChanged();
