@@ -24,7 +24,7 @@ ApplicationWindow {
             brightness: 1.0
             eulerRotation.x: -25
         }
-        LineModel {
+        ScatterModel {
             id: plotLine
 
             color: colorDialog.selectedColor
