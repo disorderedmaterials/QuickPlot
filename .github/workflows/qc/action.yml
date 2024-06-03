@@ -26,7 +26,7 @@ runs:
     shell: bash
     run: |
       set -ex
-      nix-env -i nixfmt
+      nix-env -i nixfmt -f '<nixpkgs>'
 
   - name: Nix Formatting
     shell: bash
