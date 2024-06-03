@@ -60,7 +60,7 @@ runs:
     shell: bash
     run: |
       set -ex
-      /usr/lib/qt6/bin/qmlformat --version
+      qmlformat --version
       find . -type f -regex '.*\.qml' -exec /usr/lib/qt6/bin/qmlformat -inw 4 '{}' \;
       git diff
       git diff --quiet
