@@ -16,6 +16,27 @@ runs:
       sudo apt-get install --yes clang-format-13
       pip install cmake_format==0.6.9 aqtinstall
 
+
+  - name: Install nix
+    uses: cachix/install-nix-action@v27
+    with:
+      nix_path: nixpkgs=channel:nixos-23.11
+
+  - name: Nix dependencies
+    shell: bash
+    run: |
+      set -ex
+      nix-env -i nixfmt
+
+  - name: Nix Formatting
+    shell: bash
+    run: |
+      set -ex
+      nixfmt --version
+      find src/ -type f -regex '.*\.nix' -exec nixfmt -i {} +
+      git diff
+      git diff --quiet
+
   - name: Check Conventional Commits
     # Ensure that the PR title fits the conventional commits framework
     if: github.event_name == 'pull_request'
