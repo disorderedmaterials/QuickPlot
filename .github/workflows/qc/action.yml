@@ -30,6 +30,22 @@ runs:
       git diff
       git diff --quiet
 
+  - name: Install Qt
+    shell: bash
+    run: |
+      set -ex
+      sudo pip3 install aqtinstall
+      aqt install-qt --outputdir /tmp/qt linux desktop ${{ env.qtVersion }} -m qt3d
+
+  - name: QML Formatting
+    shell: bash
+    run: |
+      set -ex
+      qmlformat --version
+      find src/ -type f -regex '.*\.qml' -exec qmlformat -inw 4 {} +
+      git diff
+      git diff --quiet
+
 #  - name: Copyright Year
 #    condition: eq(0,1)
 #    shell: bash
