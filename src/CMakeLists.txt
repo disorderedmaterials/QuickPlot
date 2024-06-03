@@ -16,8 +16,7 @@ qt_add_qml_module(
   QML_FILES
   main.qml
   LineModel.qml
-  ScatterModel.qml
-)
+  ScatterModel.qml)
 
 target_include_directories(
   unnamed PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
