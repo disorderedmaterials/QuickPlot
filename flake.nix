@@ -16,7 +16,7 @@
         with pkgs; [
           glib
           libGL.dev
-          libglvnd
+libglvnd
           libglvnd.dev
           q.qtbase
           q.qtbase.dev
