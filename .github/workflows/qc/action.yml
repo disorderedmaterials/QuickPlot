@@ -54,7 +54,7 @@ runs:
     shell: bash
     run: |
       export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
+      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }} -m qtdeclarative
 
   - name: QML Formatting
     shell: bash
