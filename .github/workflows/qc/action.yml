@@ -53,8 +53,8 @@ runs:
 #    run: |
 #      set -ex
 #
-#      # Find all occurances of "YYYY Team Mildred and contributors" and replace YYYY with the current year
-#      find . -type f -not -path '.git/*' -exec sed -i "s/[0-9]{4} \(Team Mildred and contributors\)/$(date +%Y) \1/g" {} +
+#      # Find all occurances of "YYYY Team QuickPlot and contributors" and replace YYYY with the current year
+#      find . -type f -not -path '.git/*' -exec sed -i "s/[0-9]{4} \(Team QuickPlot and contributors\)/$(date +%Y) \1/g" {} +
 #
 #      # Show the diff to give an indication of the issues in the CI log
 #      git diff
