@@ -1,6 +1,10 @@
 name: Quality Control
 description: Run quality control checks over the codebase
 
+inputs:
+  qtVersion:
+    default: 6.6.1
+
 runs:
   using: "composite"
   steps:
@@ -9,8 +13,8 @@ runs:
     run: |
       set -ex
       sudo apt-get update
-      sudo apt-get install --yes clang-format-13 qt6-declarative-dev-tools
-      pip install cmake_format==0.6.9
+      sudo apt-get install --yes clang-format-13
+      pip install cmake_format==0.6.9 aqtinstall
 
   - name: Check Conventional Commits
     # Ensure that the PR title fits the conventional commits framework
@@ -37,6 +41,20 @@ runs:
       find src/ -type f -name CMakeLists.txt -exec cmake-format -i '{}' \;
       git diff
       git diff --quiet
+
+  - name: Retrieve Qt Cache
+    id: cache-qt
+    uses: actions/cache@v4
+    with:
+      key: linux-qt-${{ inputs.qtVersion }}
+      path: ${{ runner.temp }}/qt
+
+  - name: Install Qt
+    if: ${{ steps.cache-qt.outputs.cache-hit != 'true' }}
+    shell: bash
+    run: |
+      export PATH="$(python3 -m site --user-base)/bin:$PATH"
+      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
 
   - name: QML Formatting
     shell: bash
