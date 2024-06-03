@@ -65,7 +65,7 @@ runs:
       ls ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64
       ls ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin
       ${{ runner.temp }}/qt/bin/qmlformat --version
-      find . -type f -regex '.*\.qml' -exec /usr/lib/qt6/bin/qmlformat -inw 4 '{}' \;
+      find . -type f -regex '.*\.qml' -exec ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin -inw 4 '{}' \;
       git diff
       git diff --quiet
 
