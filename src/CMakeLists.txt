@@ -11,10 +11,13 @@ qt_add_qml_module(
   axisTickLabels.cpp
   lineGeometry.cpp
   lineGeometry.h
+  logAxis.h
+  logAxis.cpp
   scatterGeometry.cpp
   scatterGeometry.h
   QML_FILES
   main.qml
+  AxisModel.qml
   LineModel.qml
   ScatterModel.qml)
 

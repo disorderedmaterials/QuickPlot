@@ -20,8 +20,7 @@ QVariant AxisTickLabels::data(const QModelIndex &index, int role) const
     switch (role)
     {
         case Qt::UserRole:
-            return QString("%1").arg(parent_.minimum() +
-                                     index.row() / ((double)N_ - 1) * (parent_.maximum() - parent_.minimum()));
+            return QString("%1").arg(parent_.tick(index.row(), N_));
         case (Qt::UserRole + 1):
             return parent_.direction() ? index.row() : 0;
         case (Qt::UserRole + 2):

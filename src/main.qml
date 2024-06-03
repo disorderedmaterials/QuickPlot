@@ -49,7 +49,7 @@ ApplicationWindow {
             axis: Axis {
                 id: xAxis
 
-                direction: false
+                direction: true
                 maximum: 1.0
                 minimum: -1.0
                 thickness: 0.01
@@ -60,13 +60,14 @@ ApplicationWindow {
             color: "black"
             scl: root.scale
 
-            axis: Axis {
+            axis: LogAxis {
                 id: yAxis
 
-                direction: true
+                direction: false
                 maximum: 1.0
-                minimum: -1.0
+                minimum: 0.01
                 thickness: 0.01
+                tickCount: ticCount.value
             }
         }
     }
