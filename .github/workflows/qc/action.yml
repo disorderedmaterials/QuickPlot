@@ -33,7 +33,7 @@ runs:
     run: |
       set -ex
       nixfmt --version
-      find . -type f -regex '.*\.nix' -exec nixfmt -i {} +
+      find . -type f -regex '.*\.nix' -exec nixfmt {} +
       git diff
       git diff --quiet
 
