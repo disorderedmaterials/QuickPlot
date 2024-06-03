@@ -12,7 +12,9 @@ void AxisTickLabels::setTickCount(const int count) {
   endResetModel();
 }
 
-int AxisTickLabels::rowCount([[maybe_unused]] const QModelIndex &parent) const { return N_; }
+int AxisTickLabels::rowCount([[maybe_unused]] const QModelIndex &parent) const {
+  return N_;
+}
 
 QVariant AxisTickLabels::data(const QModelIndex &index, int role) const {
   switch (role) {
