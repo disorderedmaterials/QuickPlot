@@ -16,8 +16,8 @@ class AxisTickLabels : public QAbstractListModel
     QHash<int, QByteArray> roleNames() const override;
     int tickCount() const;
     void setTickCount(const int count);
+    void reset();
 
     private:
     Axis &parent_;
-    int N_;
 };

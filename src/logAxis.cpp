@@ -19,8 +19,9 @@ std::vector<float> LogAxis::convert(QList<double> points) const
     return result;
 }
 
-double LogAxis::tick(int index, int count) const
+double LogAxis::tick(int index) const
 {
+    int count = 7;
     auto min = log(minimum());
     auto max = log(maximum());
 
