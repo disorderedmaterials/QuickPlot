@@ -82,7 +82,7 @@ void Axis::updateData()
     update();
 }
 
-std::vector<float> Axis::convert(QList<double> points)
+std::vector<float> Axis::convert(QList<double> points) const
 {
     std::vector<float> result(points.length());
 
@@ -90,4 +90,9 @@ std::vector<float> Axis::convert(QList<double> points)
                    [this](const auto x) { return -1.0f + 2 * (x - minimum_) / (maximum_ - minimum_); });
 
     return result;
+}
+
+double Axis::tick(int index, int count) const
+{
+    return minimum_ + (double)index / ((double)count - 1.0) * (maximum_ - minimum_);
 }
