@@ -48,6 +48,7 @@
             distcc
             gdb
             next.git-cliff
+            nixfmt
             valgrind
           ]);
           shellHook = ''
