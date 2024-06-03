@@ -54,13 +54,13 @@ runs:
     shell: bash
     run: |
       export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }} -m qtdeclarative
+      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
 
   - name: QML Formatting
     shell: bash
     run: |
       set -ex
-      qmlformat --version
+      ${{ runner.temp }}/qt/bin/qmlformat --version
       find . -type f -regex '.*\.qml' -exec /usr/lib/qt6/bin/qmlformat -inw 4 '{}' \;
       git diff
       git diff --quiet
