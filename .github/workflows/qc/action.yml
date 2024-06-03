@@ -14,8 +14,6 @@ runs:
       set -ex
       sudo apt-get update
       sudo apt-get install --yes clang-format-13
-      pip install cmake_format==0.6.9 aqtinstall
-
 
   - name: Install nix
     uses: cachix/install-nix-action@v27
@@ -27,6 +25,7 @@ runs:
     run: |
       set -ex
       nix-env -i nixfmt -f '<nixpkgs>'
+      nix-env -i qtdeclarative -f '<nixpkgs>'
 
   - name: Nix Formatting
     shell: bash
@@ -63,35 +62,12 @@ runs:
       git diff
       git diff --quiet
 
-  - name: Retrieve Qt Cache
-    id: cache-qt
-    uses: actions/cache@v4
-    with:
-      key: linux-qt-${{ inputs.qtVersion }}
-      path: ${{ runner.temp }}/qt
-
-  - name: Install Qt
-    if: ${{ steps.cache-qt.outputs.cache-hit != 'true' }}
-    shell: bash
-    run: |
-      export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
-
-  - name: Install Qt
-    uses: jurplel/install-qt-action@v4
-    with:
-      version: ${{ inputs.qtVersion }}
-      host: linux
-      target: desktop
-      dir: ${{ runner.temp }}/qt
-      cache: true
-
   - name: QML Formatting
     shell: bash
     run: |
       set -ex
-      ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat --version
-      find . -type f -regex '.*\.qml' -exec ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat -inw 4 '{}' \;
+      qmlformat --version
+      find . -type f -regex '.*\.qml' -exec qmlformat -inw 4 '{}' \;
       git diff
       git diff --quiet
 
