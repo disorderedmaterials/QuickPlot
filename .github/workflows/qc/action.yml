@@ -56,6 +56,15 @@ runs:
       export PATH="$(python3 -m site --user-base)/bin:$PATH"
       aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
 
+  - name: Install Qt
+    uses: jurplel/install-qt-action@v4
+    with:
+      version: ${{ inputs.qtVersion }}
+      host: linux
+      target: desktop
+      dir: ${{ runner.temp }}/qt
+      cache: true
+
   - name: QML Formatting
     shell: bash
     run: |
