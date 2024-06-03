@@ -22,9 +22,9 @@ QVariant AxisTickLabels::data(const QModelIndex &index, int role) const
         case Qt::UserRole:
             return QString("%1").arg(parent_.tick(index.row(), N_));
         case (Qt::UserRole + 1):
-            return parent_.direction() ? index.row() : 0;
+            return parent_.direction() ? parent_.tickCoord(index.row(), N_) : 0;
         case (Qt::UserRole + 2):
-            return parent_.direction() ? 0 : index.row();
+            return parent_.direction() ? 0 : parent_.tickCoord(index.row(), N_);
         default:
             return index.row();
     }

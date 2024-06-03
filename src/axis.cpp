@@ -96,3 +96,5 @@ double Axis::tick(int index, int count) const
 {
     return minimum_ + (double)index / ((double)count - 1.0) * (maximum_ - minimum_);
 }
+
+double Axis::tickCoord(int index, [[maybe_unused]] int count) const { return 2.0 * index / (double)(count - 1); }

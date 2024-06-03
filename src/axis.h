@@ -25,6 +25,7 @@ class Axis : public QQuick3DGeometry
     int tickCount() const;
     void setTickCount(const int count);
     virtual double tick(int index, int count) const;
+    virtual double tickCoord(int index, int count) const;
 
     Q_SIGNALS:
     void dataChanged();
