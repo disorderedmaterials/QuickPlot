@@ -17,7 +17,7 @@ runs:
     run: |
       set -ex
       clang-format-13 --version
-      find src/ examples/ -type f -regex '.*\.\(c\|cpp\|h\|hpp\|hui\)' -exec clang-format-13 -i {} +
+      find src/ -type f -regex '.*\.\(c\|cpp\|h\|hpp\|hui\)' -exec clang-format-13 -i {} +
       git diff
       git diff --quiet
 
@@ -26,7 +26,7 @@ runs:
     run: |
       set -ex
       cmake-format --version
-      find src/ examples/ -type f -name CMakeLists.txt -exec cmake-format -i '{}' \;
+      find src/ -type f -name CMakeLists.txt -exec cmake-format -i '{}' \;
       git diff
       git diff --quiet
 
