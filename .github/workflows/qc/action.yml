@@ -60,10 +60,6 @@ runs:
     shell: bash
     run: |
       set -ex
-      ls ${{ runner.temp }}/qt
-      ls ${{ runner.temp }}/qt/${{ inputs.qtVersion }}
-      ls ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64
-      ls ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin
       ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat --version
       find . -type f -regex '.*\.qml' -exec ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat -inw 4 '{}' \;
       git diff
