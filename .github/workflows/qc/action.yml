@@ -17,22 +17,13 @@ runs:
 
   - name: Install nix
     uses: cachix/install-nix-action@v27
-    with:
-      nix_path: nixpkgs=channel:nixos-23.11
-
-  - name: Nix dependencies
-    shell: bash
-    run: |
-      set -ex
-      nix-env -i nixfmt -f '<nixpkgs>'
-      nix-env -i qtdeclarative -f '<nixpkgs>'
 
   - name: Nix Formatting
     shell: bash
     run: |
       set -ex
-      nixfmt --version
-      find . -type f -regex '.*\.nix' -exec nixfmt {} +
+      nix develop --ignore-environment --keep MY_ENV_VAR --command nixfmt --version
+      nix develop --ignore-environment --keep MY_ENV_VAR --command find . -type f -regex '.*\.nix' -exec nixfmt {} +
       git diff
       git diff --quiet
 
@@ -66,8 +57,8 @@ runs:
     shell: bash
     run: |
       set -ex
-      qmlformat --version
-      find . -type f -regex '.*\.qml' -exec qmlformat -inw 4 '{}' \;
+      nix develop --ignore-environment --keep MY_ENV_VAR --command qmlformat --version
+      nix develop --ignore-environment --keep MY_ENV_VAR --command find . -type f -regex '.*\.qml' -exec qmlformat -inw 4 '{}' \;
       git diff
       git diff --quiet
 
