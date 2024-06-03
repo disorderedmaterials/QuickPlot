@@ -1,0 +1,38 @@
+name: Build
+description: Build Windows artifacts
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Install Qt
+    shell: powershell
+    run: |
+      python -m pip install aqtinstall
+      python -m aqt install-qt --outputdir ${{ github.workspace }}\Qt windows desktop ${{ env.qtVersion }} win64_msvc2019_64 -m qt3d
+
+  - name: Build
+    shell: powershell
+    run: |
+      $ErrorActionPreference = 'Stop'
+      $env:Qt6_DIR = "${{ github.workspace }}\Qt\${{ env.qtVersion }}\msvc2019_64"
+      $env:PATH += ";$env:Qt6_DIR" + "\bin"
+      echo $env:Qt6_DIR
+      mkdir build
+      cd build
+      cmake ../ -G "Visual Studio 17 2022" -A "x64" -DBUILD_EXAMPLES:bool=true -DCMAKE_BUILD_TYPE:STRING="Release" -DCMAKE_INSTALL_PREFIX:path=./QuickPlot-windows
+      cmake --build . --config Release
+      cmake --install .
+
+  - name: Create Zip
+    shell: bash
+    run: |
+      set -ex
+      cd build
+      7z a ../packages/QuickPlot-windows.zip QuickPlot-windows/
+
+  - name: Upload Raw Build Artifacts
+    uses: actions/upload-artifact@v3
+    with:
+      name: packages
+      path: ${{ github.workspace }}/packages

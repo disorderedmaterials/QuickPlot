@@ -3,11 +3,10 @@
 
 #include <iostream>
 
-Axis::Axis()
-    : direction_(false), minimum_(-1), maximum_(1), thickness_(0.001),
-      tickLabels_(*this) {
-  updateData();
-  connect(this, &Axis::dataChanged, this, &Axis::updateData);
+Axis::Axis() : direction_(false), minimum_(-1), maximum_(1), thickness_(0.001), tickLabels_(*this)
+{
+    updateData();
+    connect(this, &Axis::dataChanged, this, &Axis::updateData);
 }
 
 AxisTickLabels *Axis::tickLabels() { return &tickLabels_; }
@@ -20,74 +19,75 @@ int Axis::tickCount() const { return tickLabels_.tickCount(); }
 
 void Axis::setTickCount(const int count) { tickLabels_.setTickCount(count); }
 
-void Axis::updateData() {
-  clear();
+void Axis::updateData()
+{
+    clear();
 
-  int stride = 3 * sizeof(float);
+    int stride = 3 * sizeof(float);
 
-  QByteArray vertexData(6 * stride, Qt::Initialization::Uninitialized);
-  float *p = reinterpret_cast<float *>(vertexData.data());
+    QByteArray vertexData(6 * stride, Qt::Initialization::Uninitialized);
+    float *p = reinterpret_cast<float *>(vertexData.data());
 
-  if (direction_) {
-    *p++ = -1.0;
-    *p++ = -1.0 - thickness_;
-    *p++ = 0;
-    *p++ = 1.0;
-    *p++ = -1.0 - thickness_;
-    *p++ = 0;
-    *p++ = 1.0;
-    *p++ = -1.0 + thickness_;
-    *p++ = 0;
+    if (direction_)
+    {
+        *p++ = -1.0;
+        *p++ = -1.0 - thickness_;
+        *p++ = 0;
+        *p++ = 1.0;
+        *p++ = -1.0 - thickness_;
+        *p++ = 0;
+        *p++ = 1.0;
+        *p++ = -1.0 + thickness_;
+        *p++ = 0;
 
-    *p++ = 1.0;
-    *p++ = -1.0 + thickness_;
-    *p++ = 0;
-    *p++ = -1.0;
-    *p++ = -1.0 + thickness_;
-    *p++ = 0;
-    *p++ = -1.0;
-    *p++ = -1.0 - thickness_;
-    *p++ = 0;
-  } else {
-    *p++ = -1.0 - thickness_;
-    *p++ = -1.0;
-    *p++ = 0;
-    *p++ = -1.0 + thickness_;
-    *p++ = 1.0;
-    *p++ = 0;
-    *p++ = -1.0 - thickness_;
-    *p++ = 1.0;
-    *p++ = 0;
+        *p++ = 1.0;
+        *p++ = -1.0 + thickness_;
+        *p++ = 0;
+        *p++ = -1.0;
+        *p++ = -1.0 + thickness_;
+        *p++ = 0;
+        *p++ = -1.0;
+        *p++ = -1.0 - thickness_;
+        *p++ = 0;
+    }
+    else
+    {
+        *p++ = -1.0 - thickness_;
+        *p++ = -1.0;
+        *p++ = 0;
+        *p++ = -1.0 + thickness_;
+        *p++ = 1.0;
+        *p++ = 0;
+        *p++ = -1.0 - thickness_;
+        *p++ = 1.0;
+        *p++ = 0;
 
-    *p++ = -1.0 - thickness_;
-    *p++ = -1.0;
-    *p++ = 0;
-    *p++ = -1.0 + thickness_;
-    *p++ = -1.0;
-    *p++ = 0;
-    *p++ = -1.0 + thickness_;
-    *p++ = 1.0;
-    *p++ = 0;
-  }
+        *p++ = -1.0 - thickness_;
+        *p++ = -1.0;
+        *p++ = 0;
+        *p++ = -1.0 + thickness_;
+        *p++ = -1.0;
+        *p++ = 0;
+        *p++ = -1.0 + thickness_;
+        *p++ = 1.0;
+        *p++ = 0;
+    }
 
-  setVertexData(vertexData);
-  setStride(stride);
-  setBounds(QVector3D(-1.0f - thickness_, -1.0f - thickness_, 0.0f),
-            QVector3D(1.0f + thickness_, 1.0f + thickness_, 0.0f));
+    setVertexData(vertexData);
+    setStride(stride);
+    setBounds(QVector3D(-1.0f - thickness_, -1.0f - thickness_, 0.0f), QVector3D(1.0f + thickness_, 1.0f + thickness_, 0.0f));
 
-  addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0,
-               QQuick3DGeometry::Attribute::F32Type);
+    addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0, QQuick3DGeometry::Attribute::F32Type);
 
-  update();
+    update();
 }
 
-std::vector<float> Axis::convert(QList<double> points) {
-  std::vector<float> result(points.length());
+std::vector<float> Axis::convert(QList<double> points)
+{
+    std::vector<float> result(points.length());
 
-  std::transform(points.begin(), points.end(), result.begin(),
-                 [this](const auto x) {
-                   return -1.0f + 2 * (x - minimum_) / (maximum_ - minimum_);
-                 });
+    std::transform(points.begin(), points.end(), result.begin(),
+                   [this](const auto x) { return -1.0f + 2 * (x - minimum_) / (maximum_ - minimum_); });
 
-  return result;
+    return result;
 }
