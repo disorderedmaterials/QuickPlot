@@ -92,6 +92,7 @@ std::vector<float> Axis::convert(QList<double> points) const
     return result;
 }
 
-double Axis::tick(int index, int count) const {
-  return minimum_ + (double) index / ((double) count - 1.0) * (maximum_ - minimum_);
+double Axis::tick(int index, int count) const
+{
+    return minimum_ + (double)index / ((double)count - 1.0) * (maximum_ - minimum_);
 }

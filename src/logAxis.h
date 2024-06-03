@@ -1,7 +1,7 @@
 #pragma once
 
-#include "axisTickLabels.h"
 #include "axis.h"
+#include "axisTickLabels.h"
 #include <QQuick3DGeometry>
 #include <QVector3D>
 
