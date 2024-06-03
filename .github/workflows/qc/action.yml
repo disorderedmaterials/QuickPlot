@@ -8,13 +8,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Install Dependencies
+  - name: Install nix
+    uses: cachix/install-nix-action@v27
+
+  - name: Nix Formatting
     shell: bash
     run: |
       set -ex
-      sudo apt-get update
-      sudo apt-get install --yes clang-format-13
-      pip install cmake_format==0.6.9 aqtinstall
+      nix develop --ignore-environment --command nixfmt --version
+      nix develop --ignore-environment --command find . -type f -regex '.*\.nix' -exec nixfmt {} +
+      git diff
+      git diff --quiet
 
   - name: Check Conventional Commits
     # Ensure that the PR title fits the conventional commits framework
@@ -28,8 +32,8 @@ runs:
     shell: bash
     run: |
       set -ex
-      clang-format-13 --version
-      find src/ -type f -regex '.*\.\(c\|cpp\|h\|hpp\|hui\)' -exec clang-format-13 -i {} +
+      nix develop --ignore-environment --command clang-format --version
+      nix develop --ignore-environment --command find src/ -type f -regex '.*\.\(c\|cpp\|h\|hpp\|hui\)' -exec clang-format -i {} +
       git diff
       git diff --quiet
 
@@ -37,40 +41,17 @@ runs:
     shell: bash
     run: |
       set -ex
-      cmake-format --version
-      find src/ -type f -name CMakeLists.txt -exec cmake-format -i '{}' \;
+      nix develop --ignore-environment --command cmake-format --version
+      nix develop --ignore-environment --command find src/ -type f -name CMakeLists.txt -exec cmake-format -i '{}' \;
       git diff
       git diff --quiet
-
-  - name: Retrieve Qt Cache
-    id: cache-qt
-    uses: actions/cache@v4
-    with:
-      key: linux-qt-${{ inputs.qtVersion }}
-      path: ${{ runner.temp }}/qt
-
-  - name: Install Qt
-    if: ${{ steps.cache-qt.outputs.cache-hit != 'true' }}
-    shell: bash
-    run: |
-      export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      aqt install-qt --outputdir ${{ runner.temp }}/qt linux desktop ${{ inputs.qtVersion }}
-
-  - name: Install Qt
-    uses: jurplel/install-qt-action@v4
-    with:
-      version: ${{ inputs.qtVersion }}
-      host: linux
-      target: desktop
-      dir: ${{ runner.temp }}/qt
-      cache: true
 
   - name: QML Formatting
     shell: bash
     run: |
       set -ex
-      ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat --version
-      find . -type f -regex '.*\.qml' -exec ${{ runner.temp }}/qt/${{ inputs.qtVersion }}/gcc_64/bin/qmlformat -inw 4 '{}' \;
+      nix develop --ignore-environment --command qmlformat --version
+      nix develop --ignore-environment --command find . -type f -regex '.*\.qml' -exec qmlformat -inw 4 '{}' \;
       git diff
       git diff --quiet
 
