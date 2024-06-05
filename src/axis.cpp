@@ -113,4 +113,4 @@ std::vector<float> Axis::convert(QList<double> points) const
 
 double Axis::tick(int index) const { return tics_[index]; }
 
-double Axis::tickCoord(int index) const { return 2.0 * index / (double)(tics_.size() - 1); }
+double Axis::tickCoord(int index) const { return 2.0 * (tics_[index] - minimum_) / (maximum_ - minimum_); }
