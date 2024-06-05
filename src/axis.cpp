@@ -33,7 +33,11 @@ void Axis::updateData()
         diff *= 2;
     }
     tics_.clear();
-    auto current = minimum_;
+
+    auto current = floor(minimum_ / diff) * diff;
+
+    while (current < minimum_)
+      current += diff;
 
     while (current <= maximum_)
     {

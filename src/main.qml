@@ -51,7 +51,7 @@ ApplicationWindow {
 
                 direction: true
                 maximum: yMax.value
-                minimum: -1.0
+                minimum: yMin.value
                 thickness: 0.01
             }
         }
@@ -145,13 +145,23 @@ ApplicationWindow {
                 onMoved: renderButton.onClicked()
             }
             Label {
+                text: "Y Min"
+            }
+            SpinBox {
+                id: yMin
+
+                from: -30
+                to: yMax.value
+                value: -1
+            }
+            Label {
                 text: "Y Max"
             }
             SpinBox {
                 id: yMax
 
                 from: 0
-                to: 10
+                to: 30
                 value: 1
             }
             ColorDialog {
