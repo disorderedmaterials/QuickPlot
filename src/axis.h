@@ -23,16 +23,20 @@ class Axis : public QQuick3DGeometry
     double minimum() const;
     double maximum() const;
     int tickCount() const;
-    virtual double tick(int index) const;
+    double tick(int index) const;
     virtual double tickCoord(int index) const;
 
     Q_SIGNALS:
     void dataChanged();
 
+    protected:
+    std::vector<double> tics_;
+    double minimum_, maximum_;
+
     private:
+    virtual void updateTicks_();
     void updateData();
     bool direction_;
-    double minimum_, maximum_, thickness_;
+    double thickness_;
     AxisTickLabels tickLabels_;
-    std::vector<double> tics_;
 };

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-Axis::Axis() : direction_(false), minimum_(-1), maximum_(1), thickness_(0.001), tickLabels_(*this)
+Axis::Axis() : minimum_(-1), maximum_(1), direction_(false), thickness_(0.001), tickLabels_(*this)
 {
     updateData();
     connect(this, &Axis::dataChanged, this, &Axis::updateData);
@@ -18,9 +18,7 @@ double Axis::maximum() const { return maximum_; }
 
 int Axis::tickCount() const { return tics_.size(); }
 
-void Axis::updateData()
-{
-    clear();
+void Axis::updateTicks_() {
 
     auto full_diff = maximum_ - minimum_;
     auto diff = pow(10.0, floor(log(full_diff) / log(10.0)));
@@ -44,6 +42,13 @@ void Axis::updateData()
         tics_.emplace_back(current);
         current += diff;
     }
+}
+
+void Axis::updateData()
+{
+    clear();
+
+    updateTicks_();
     tickLabels_.reset();
 
     int stride = 3 * sizeof(float);

@@ -8,11 +8,9 @@ int AxisTickLabels::rowCount([[maybe_unused]] const QModelIndex &parent) const {
 
 QVariant AxisTickLabels::data(const QModelIndex &index, int role) const
 {
-    std::cout << "New Data: " << index.row() << " " << (role - Qt::UserRole) << std::endl;
     switch (role)
     {
         case Qt::UserRole:
-            std::cout << parent_.tick(index.row()) << std::endl;
             return QString("%1").arg(parent_.tick(index.row()));
         case (Qt::UserRole + 1):
             return parent_.direction() ? parent_.tickCoord(index.row()) : 0;
