@@ -12,19 +12,6 @@ Model {
     property Axis yAxis
     property list<double> ys
 
-    Connections {
-        target: xAxis
-        function onDataChanged() {
-            plotLine.dataChanged();
-        }
-    }
-    Connections {
-        target: yAxis
-        function onDataChanged() {
-            plotLine.dataChanged();
-        }
-    }
-
     geometry: ScatterGeometry {
         id: plotLine
 
@@ -42,4 +29,19 @@ Model {
             baseColor: root.color
         }
     ]
+
+    Connections {
+        function onDataChanged() {
+            plotLine.dataChanged();
+        }
+
+        target: xAxis
+    }
+    Connections {
+        function onDataChanged() {
+            plotLine.dataChanged();
+        }
+
+        target: yAxis
+    }
 }
