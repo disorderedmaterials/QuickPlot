@@ -13,7 +13,10 @@ class LogAxis : public Axis
     public:
     LogAxis();
     std::vector<float> convert(QList<double> values) const override;
-    double tick(int index, int count) const override;
+    double tickCoord(int index) const override;
+
+    private:
+    void updateTicks_() override;
 
     Q_SIGNALS:
     void dataChanged();

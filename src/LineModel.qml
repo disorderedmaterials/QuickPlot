@@ -29,4 +29,19 @@ Model {
             baseColor: root.color
         }
     ]
+
+    Connections {
+        function onDataChanged() {
+            plotLine.dataChanged();
+        }
+
+        target: xAxis
+    }
+    Connections {
+        function onDataChanged() {
+            plotLine.dataChanged();
+        }
+
+        target: yAxis
+    }
 }

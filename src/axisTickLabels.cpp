@@ -2,29 +2,20 @@
 #include "axis.h"
 #include <iostream>
 
-AxisTickLabels::AxisTickLabels(Axis &parent) : parent_(parent), N_(5) {}
+AxisTickLabels::AxisTickLabels(Axis &parent) : parent_(parent) {}
 
-int AxisTickLabels::tickCount() const { return N_; }
-
-void AxisTickLabels::setTickCount(const int count)
-{
-    beginResetModel();
-    N_ = count;
-    endResetModel();
-}
-
-int AxisTickLabels::rowCount([[maybe_unused]] const QModelIndex &parent) const { return N_; }
+int AxisTickLabels::rowCount([[maybe_unused]] const QModelIndex &parent) const { return parent_.tickCount(); }
 
 QVariant AxisTickLabels::data(const QModelIndex &index, int role) const
 {
     switch (role)
     {
         case Qt::UserRole:
-            return QString("%1").arg(parent_.tick(index.row(), N_));
+            return QString("%1").arg(parent_.tick(index.row()));
         case (Qt::UserRole + 1):
-            return parent_.direction() ? index.row() : 0;
+            return parent_.direction() ? parent_.tickCoord(index.row()) : 0;
         case (Qt::UserRole + 2):
-            return parent_.direction() ? 0 : index.row();
+            return parent_.direction() ? 0 : parent_.tickCoord(index.row());
         default:
             return index.row();
     }
@@ -37,4 +28,10 @@ QHash<int, QByteArray> AxisTickLabels::roleNames() const
     roles[Qt::UserRole + 1] = "tickX";
     roles[Qt::UserRole + 2] = "tickY";
     return roles;
+}
+
+void AxisTickLabels::reset()
+{
+    beginResetModel();
+    endResetModel();
 }

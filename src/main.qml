@@ -50,10 +50,9 @@ ApplicationWindow {
                 id: xAxis
 
                 direction: true
-                maximum: 1.0
-                minimum: -1.0
+                maximum: yMax.value
+                minimum: yMin.value
                 thickness: 0.01
-                tickCount: ticCount.value
             }
         }
         AxisModel {
@@ -67,7 +66,6 @@ ApplicationWindow {
                 maximum: 1.0
                 minimum: 0.01
                 thickness: 0.01
-                tickCount: ticCount.value
             }
         }
     }
@@ -147,14 +145,24 @@ ApplicationWindow {
                 onMoved: renderButton.onClicked()
             }
             Label {
-                text: "Tic Count"
+                text: "Y Min"
             }
             SpinBox {
-                id: ticCount
+                id: yMin
 
-                from: 2
-                to: 10
-                value: 5
+                from: -30
+                to: yMax.value
+                value: -1
+            }
+            Label {
+                text: "Y Max"
+            }
+            SpinBox {
+                id: yMax
+
+                from: 0
+                to: 30
+                value: 1
             }
             ColorDialog {
                 id: colorDialog

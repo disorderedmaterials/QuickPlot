@@ -28,9 +28,8 @@ Node {
         model: axis.tickLabels
 
         delegate: Node {
-            position: axis.direction ? Qt.vector3d(-root.scl.x + 2 * tickX * root.scl.x / (rep.count - 1), -root.scl.y - 210, 0) : Qt.vector3d(-root.scl.x - 30, -root.scl.y - 180 + 2 * tickY * root.scl.y / (rep.count - 1), 0)
+            position: axis.direction ? Qt.vector3d(-root.scl.x + tickX * root.scl.x, -root.scl.y - 210, 0) : Qt.vector3d(-root.scl.x - 30, -root.scl.y - 180 + tickY * root.scl.y, 0)
 
-            /* position: axis.direction ? Qt.vector3d(-root.scl.x + 2 * index * root.scl.x / (rep.count - 1), -root.scl.y - 210, 0) : Qt.vector3d(-root.scl.x - 30.0, -root.scl.y - 180 + 2 * index * root.scl.y / (rep.count - 1), 0) */
             Item {
                 anchors.centerIn: parent
                 height: 400

@@ -1,9 +1,10 @@
 #include "axis.h"
 #include <algorithm>
 
+#include <cmath>
 #include <iostream>
 
-Axis::Axis() : direction_(false), minimum_(-1), maximum_(1), thickness_(0.001), tickLabels_(*this)
+Axis::Axis() : minimum_(-1), maximum_(1), direction_(false), thickness_(0.001), tickLabels_(*this)
 {
     updateData();
     connect(this, &Axis::dataChanged, this, &Axis::updateData);
@@ -15,13 +16,41 @@ bool Axis::direction() const { return direction_; }
 double Axis::minimum() const { return minimum_; }
 double Axis::maximum() const { return maximum_; }
 
-int Axis::tickCount() const { return tickLabels_.tickCount(); }
+int Axis::tickCount() const { return tics_.size(); }
 
-void Axis::setTickCount(const int count) { tickLabels_.setTickCount(count); }
+void Axis::updateTicks_()
+{
+
+    auto full_diff = maximum_ - minimum_;
+    auto diff = pow(10.0, floor(log(full_diff) / log(10.0)));
+    while (full_diff / diff < 4)
+    {
+        diff /= 2;
+    }
+    while (full_diff / diff > 9)
+    {
+        diff *= 2;
+    }
+    tics_.clear();
+
+    auto current = floor(minimum_ / diff) * diff;
+
+    while (current < minimum_)
+        current += diff;
+
+    while (current <= maximum_)
+    {
+        tics_.emplace_back(current);
+        current += diff;
+    }
+}
 
 void Axis::updateData()
 {
     clear();
+
+    updateTicks_();
+    tickLabels_.reset();
 
     int stride = 3 * sizeof(float);
 
@@ -92,7 +121,6 @@ std::vector<float> Axis::convert(QList<double> points) const
     return result;
 }
 
-double Axis::tick(int index, int count) const
-{
-    return minimum_ + (double)index / ((double)count - 1.0) * (maximum_ - minimum_);
-}
+double Axis::tick(int index) const { return tics_[index]; }
+
+double Axis::tickCoord(int index) const { return 2.0 * (tics_[index] - minimum_) / (maximum_ - minimum_); }
