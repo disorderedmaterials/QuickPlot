@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Check QML format
+for file in $(git diff --name-only --cached); do
+    if [[ $file == *.qml ]]; then
+        if ! qmlformat -nw 4 $file | diff $file -; then
+            echo "QML format error in $file";
+            exit 1
+        fi
+    fi
+    if [[ $file == *.@(cpp|h) ]]; then
+        if ! clang-format $file | diff $file -; then
+            echo "C++ format error in $file";
+            exit 1
+        fi
+    fi
+    if [[ $file == *.nix ]]; then
+        if ! nixfmt -c $file; then
+            echo "Nix format error in $file";
+            exit 1
+        fi
+    fi
+    if [[ $file == **/CMakeLists.txt ]] || [[ $file == CMakeLists.txt ]]; then
+        if ! cmake-format --check $file; then
+            echo "CMake format error in $file";
+            exit 1
+        fi
+    fi
+done
