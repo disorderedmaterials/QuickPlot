@@ -18,7 +18,8 @@ double Axis::maximum() const { return maximum_; }
 
 int Axis::tickCount() const { return tics_.size(); }
 
-void Axis::updateTicks_() {
+void Axis::updateTicks_()
+{
 
     auto full_diff = maximum_ - minimum_;
     auto diff = pow(10.0, floor(log(full_diff) / log(10.0)));
@@ -35,7 +36,7 @@ void Axis::updateTicks_() {
     auto current = floor(minimum_ / diff) * diff;
 
     while (current < minimum_)
-      current += diff;
+        current += diff;
 
     while (current <= maximum_)
     {
