@@ -15,6 +15,7 @@ qt_add_qml_module(
   logAxis.cpp
   scatterGeometry.cpp
   scatterGeometry.h
+  triangle.cpp
   QML_FILES
   main.qml
   AxisModel.qml

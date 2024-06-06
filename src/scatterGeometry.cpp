@@ -1,4 +1,5 @@
 #include "scatterGeometry.h"
+#include "triangle.h"
 #include <algorithm>
 
 ScatterGeometry::ScatterGeometry() : xAxis_(nullptr), yAxis_(nullptr)
@@ -28,27 +29,37 @@ void ScatterGeometry::updateData()
     auto xs = xAxis_->convert(xs_);
     auto ys = yAxis_->convert(ys_);
 
+    std::vector<Point> ps(N);
     for (int i = 0; i < N; i++)
     {
-        *p++ = xs[i] - thickness_;
-        *p++ = ys[i] - thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] + thickness_;
-        *p++ = ys[i] - thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] + thickness_;
-        *p++ = ys[i] + thickness_;
-        *p++ = 0.0f;
+        ps[i] = Point(xs[i], ys[i], 0.0);
+    }
 
-        *p++ = xs[i] - thickness_;
-        *p++ = ys[i] - thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] + thickness_;
-        *p++ = ys[i] + thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] - thickness_;
-        *p++ = ys[i] + thickness_;
-        *p++ = 0.0f;
+    std::vector<Triangle> ts(2 * N);
+    for (int i = 0; i < N; i++)
+    {
+        Triangle t(ps[i], ps[i], ps[i]);
+        t.a.x -= thickness_;
+        t.a.y -= thickness_;
+        t.b.x += thickness_;
+        t.b.y -= thickness_;
+        t.c.x += thickness_;
+        t.c.y += thickness_;
+        ts[2 * i] = t;
+
+        t = Triangle(ps[i], ps[i], ps[i]);
+        t.a.x -= thickness_;
+        t.a.y -= thickness_;
+        t.b.x += thickness_;
+        t.b.y += thickness_;
+        t.c.x -= thickness_;
+        t.c.y += thickness_;
+        ts[2 * i + 1] = t;
+    }
+
+    for (auto &t : ts)
+    {
+        p = t.writeByteArray(p);
     }
 
     setVertexData(vertexData);
