@@ -13,6 +13,8 @@ qt_add_qml_module(
   lineGeometry.h
   logAxis.h
   logAxis.cpp
+  plotGeometry.h
+  plotGeometry.cpp
   scatterGeometry.cpp
   scatterGeometry.h
   triangle.cpp
