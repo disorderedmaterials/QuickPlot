@@ -1,4 +1,5 @@
 #include "lineGeometry.h"
+#include "triangle.h"
 #include <algorithm>
 
 LineGeometry::LineGeometry() : xAxis_(nullptr), yAxis_(nullptr)
@@ -38,27 +39,37 @@ void LineGeometry::updateData()
     angles[0] = M_PI / 2 + atan2(ys[1] - ys[0], xs[0] - xs[0]);
     angles[N - 1] = M_PI / 2 + atan2(ys[N - 1] - ys[N - 2], xs[N - 1] - xs[N - 2]);
 
+    std::vector<Point> ps(N);
+    for (int i = 0; i < N; i++)
+    {
+        ps[i] = Point(xs[i], ys[i], 0.0);
+    }
+    std::vector<Triangle> ts(2 * N);
+
     for (int i = 0; i < N - 1; i++)
     {
-        *p++ = xs[i] + cos(angles[i]) * thickness_;
-        *p++ = ys[i] + sin(angles[i]) * thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] - cos(angles[i]) * thickness_;
-        *p++ = ys[i] - sin(angles[i]) * thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i + 1] - cos(angles[i + 1]) * thickness_;
-        *p++ = ys[i + 1] - sin(angles[i + 1]) * thickness_;
-        *p++ = 0.0f;
+        Triangle t(ps[i], ps[i], ps[i + 1]);
+        t.a.x += cos(angles[i]) * thickness_;
+        t.a.y += sin(angles[i]) * thickness_;
+        t.b.x -= cos(angles[i]) * thickness_;
+        t.b.y -= sin(angles[i]) * thickness_;
+        t.c.x -= cos(angles[i + 1]) * thickness_;
+        t.c.y -= sin(angles[i + 1]) * thickness_;
+        ts[2 * i] = t;
 
-        *p++ = xs[i + 1] - cos(angles[i + 1]) * thickness_;
-        *p++ = ys[i + 1] - sin(angles[i + 1]) * thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i + 1] + cos(angles[i + 1]) * thickness_;
-        *p++ = ys[i + 1] + sin(angles[i + 1]) * thickness_;
-        *p++ = 0.0f;
-        *p++ = xs[i] + cos(angles[i]) * thickness_;
-        *p++ = ys[i] + sin(angles[i]) * thickness_;
-        *p++ = 0.0f;
+        t = Triangle(ps[i + 1], ps[i + 1], ps[i]);
+        t.a.x -= cos(angles[i + 1]) * thickness_;
+        t.a.y -= sin(angles[i + 1]) * thickness_;
+        t.b.x += cos(angles[i + 1]) * thickness_;
+        t.b.y += sin(angles[i + 1]) * thickness_;
+        t.c.x += cos(angles[i]) * thickness_;
+        t.c.y += sin(angles[i]) * thickness_;
+        ts[2 * i + 1] = t;
+    }
+
+    for (auto &t : ts)
+    {
+        p = t.writeByteArray(p);
     }
 
     setVertexData(vertexData);
