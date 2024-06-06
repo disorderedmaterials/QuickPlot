@@ -2,7 +2,7 @@
 #include "triangle.h"
 #include <algorithm>
 
-LineGeometry::LineGeometry() : PlotGeometry() { connect(this, &LineGeometry::dataChanged, this, &LineGeometry::updateData); }
+LineGeometry::LineGeometry() : PlotGeometry() {}
 
 std::vector<Triangle> LineGeometry::faces_(std::vector<Point> ps) const
 {

@@ -1,6 +1,9 @@
 #include "plotGeometry.h"
 
-PlotGeometry::PlotGeometry() : xAxis_(nullptr), yAxis_(nullptr) {}
+PlotGeometry::PlotGeometry() : xAxis_(nullptr), yAxis_(nullptr)
+{
+    connect(this, &PlotGeometry::dataChanged, this, &PlotGeometry::updateData);
+}
 
 void PlotGeometry::updateData()
 {
