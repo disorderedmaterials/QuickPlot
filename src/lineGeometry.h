@@ -2,7 +2,6 @@
 
 #include "axis.h"
 #include "plotGeometry.h"
-#include <QVector3D>
 
 class LineGeometry : public PlotGeometry
 {
