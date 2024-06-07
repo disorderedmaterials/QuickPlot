@@ -124,3 +124,10 @@ std::vector<float> Axis::convert(QList<double> points) const
 double Axis::tick(int index) const { return tics_[index]; }
 
 double Axis::tickCoord(int index) const { return 2.0 * (tics_[index] - minimum_) / (maximum_ - minimum_); }
+
+void Axis::nudge(double delta)
+{
+    minimum_ += delta;
+    maximum_ += delta;
+    emit dataChanged();
+}

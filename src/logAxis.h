@@ -14,6 +14,7 @@ class LogAxis : public Axis
     LogAxis();
     std::vector<float> convert(QList<double> values) const override;
     double tickCoord(int index) const override;
+    void nudge(double delta);
 
     private:
     void updateTicks_() override;
