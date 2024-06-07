@@ -29,6 +29,9 @@ class Axis : public QQuick3DGeometry
     Q_SIGNALS:
     void dataChanged();
 
+    public slots:
+    virtual void nudge(double delta);
+
     protected:
     std::vector<double> tics_;
     double minimum_, maximum_;

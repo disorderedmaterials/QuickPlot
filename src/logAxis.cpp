@@ -68,3 +68,10 @@ double LogAxis::tickCoord(int index) const
 
     return 2.0 * (actual - min) / (max - min);
 }
+
+void LogAxis::nudge(double delta)
+{
+    minimum_ = pow(10.0, log10(minimum_) + delta);
+    maximum_ = pow(10.0, log10(maximum_) + delta);
+    emit Axis::dataChanged();
+}

@@ -50,8 +50,6 @@ ApplicationWindow {
                 id: xAxis
 
                 direction: true
-                maximum: yMax.value
-                minimum: yMin.value
                 thickness: 0.01
             }
         }
@@ -87,11 +85,9 @@ ApplicationWindow {
         MouseArea {
             anchors.fill: parent
 
-            onWheel: function(event) {
-                xAxis.minimum += 0.01 * event.pixelDelta.x;
-                xAxis.maximum += 0.01 * event.pixelDelta.x;
-                yAxis.minimum -= 0.01 * event.pixelDelta.y;
-                yAxis.maximum -= 0.01 * event.pixelDelta.y;
+            onWheel: function (event) {
+                xAxis.nudge(0.01 * event.pixelDelta.x);
+                yAxis.nudge(-0.01 * event.pixelDelta.y);
             }
         }
     }
