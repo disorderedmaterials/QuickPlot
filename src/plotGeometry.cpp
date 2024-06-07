@@ -35,7 +35,7 @@ void PlotGeometry::updateData()
     QByteArray vertexData(3 * ts.size() * stride, Qt::Initialization::Uninitialized);
     float *p = reinterpret_cast<float *>(vertexData.data());
 
-    for (auto &t : ts)
+    for (auto &t : clip(ts))
     {
         p = t.writeByteArray(p);
     }
@@ -52,3 +52,18 @@ void PlotGeometry::updateData()
 }
 
 std::vector<Triangle> PlotGeometry::faces_([[maybe_unused]] std::vector<Point> ps) const { return {}; }
+
+bool outOfBounds(const Point &p) { return p.x < -1 || p.x > 1 || p.y < -1 || p.y > 1 || p.z < -1 || p.z > 1; }
+
+std::vector<Triangle> PlotGeometry::clip(const std::vector<Triangle> &ts) const
+{
+    std::vector<Triangle> result;
+
+    for (const auto &t : ts)
+    {
+        if (outOfBounds(t.a) || outOfBounds(t.b) || outOfBounds(t.c))
+            continue;
+        result.push_back(t);
+    }
+    return result;
+}
