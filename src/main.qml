@@ -84,10 +84,15 @@ ApplicationWindow {
             z: 600
         }
 
-        OrbitCameraController {
+        MouseArea {
             anchors.fill: parent
-            camera: cameraOrthographicLeft
-            origin: standAloneScene
+
+            onWheel: function(event) {
+                xAxis.minimum += 0.01 * event.pixelDelta.x;
+                xAxis.maximum += 0.01 * event.pixelDelta.x;
+                yAxis.minimum -= 0.01 * event.pixelDelta.y;
+                yAxis.maximum -= 0.01 * event.pixelDelta.y;
+            }
         }
     }
     Pane {
@@ -143,26 +148,6 @@ ApplicationWindow {
                 value: 3
 
                 onMoved: renderButton.onClicked()
-            }
-            Label {
-                text: "Y Min"
-            }
-            SpinBox {
-                id: yMin
-
-                from: -30
-                to: yMax.value
-                value: -1
-            }
-            Label {
-                text: "Y Max"
-            }
-            SpinBox {
-                id: yMax
-
-                from: 0
-                to: 30
-                value: 1
             }
             ColorDialog {
                 id: colorDialog
