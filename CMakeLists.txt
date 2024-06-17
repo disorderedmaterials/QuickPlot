@@ -60,7 +60,7 @@ endif(UNIX)
 if(APPLE)
   # Set some specific C++11 related options here (set_property below does not
   # seem to persist)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
 
   add_definitions(-D_MAC)
 endif(APPLE)
