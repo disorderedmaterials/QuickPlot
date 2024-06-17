@@ -5,44 +5,75 @@ runs:
   using: "composite"
   steps:
 
-  - name: Install nix
-    uses: cachix/install-nix-action@v27
 
-  - name: build executable
+  # - name: Install Homebrew Dependencies
+  #   if: ${{ inputs.cacheOnly == 'false' }}
+  #   shell: bash
+  #   run: |
+
+  #     set -ex
+  #     brew update-reset
+  #     brew install ftgl ninja
+
+  - name: Install Python Dependencies
     shell: bash
     run: |
-      nix build .#quickPlot
+      pip3 install aqtinstall conan==1.* --break-system-packages
 
-  # - name: Install Prerequisites
-  #   shell: bash
-  #   run: |
-  #     set -ex
-  #     sudo pip3 install conan aqtinstall
-  #     aqt install-qt --outputdir /tmp/qt mac desktop ${{ env.qtVersion }} -m qt3d
+  - name: Retrieve Qt Cache
+    id: cache-qt
+    uses: actions/cache@v4
+    with:
+      key: osx-qt-${{ env.qtVersion }}
+      path: ${{ runner.temp }}/qt
 
-  # - name: Build
-  #   shell: bash
-  #   run: |
-  #     set -ex
-  #     Qt6_DIR=/tmp/qt/${{ env.qtVersion }}/macos/lib/cmake/Qt6
-  #     QT_BASE_DIR=/tmp/qt/${{ env.qtVersion }}/macos
-  #     QTVER=${{ env.qtVersion }}
-  #     mkdir build
-  #     cd build
-  #     cmake ../ -DQT_BASE_DIR=$QT_BASE_DIR -DCMAKE_INSTALL_PREFIX:path=./QuickPlot-osx
-  #     make
-  #     make install
+  - name: Install Qt
+    if: ${{ steps.cache-qt.outputs.cache-hit != 'true' }}
+    shell: bash
+    run: |
+      export PATH="$(python3 -m site --user-base)/bin:$PATH"
+      aqt install-qt --outputdir ${{ runner.temp }}/qt mac desktop ${{ env.qtVersion }}
 
-  # - name: Create Zip
-  #   shell: bash
-  #   run: |
-  #     set -ex
-  #     mkdir packages
-  #     cd build
-  #     zip -9rv ../packages/QuickPlot-osx.zip QuickPlot-osx
+  #
+  # Main Build
+  #
 
-  # - name: Upload Raw Build Artifacts
-  #   uses: actions/upload-artifact@v3
-  #   with:
-  #     name: packages
-  #     path: ${{ github.workspace }}/packages
+  - name: Retrieve Conan Cache
+    id: cache-conan
+    uses: actions/cache@v4
+    with:
+      key: osx-${{ runner.arch }}-conan-${{ env.conanHash }}
+      path: |
+        ~/.conan
+        ~/.conancache
+
+  - name: Build
+    if: ${{ inputs.cacheOnly == 'false' }}
+    shell: bash
+    run: |
+      set -ex
+
+      # Setup paths
+      export PATH="$(python3 -m site --user-base)/bin:$PATH"
+      Qt6_DIR=${{ runner.temp }}/qt/${{ env.qtVersion }}/macos/lib/cmake/Qt6
+      QT_BASE_DIR=${{ runner.temp }}/qt/${{ env.qtVersion }}/macos
+
+      # Set conan cache location
+      conan config set storage.download_cache="${GITHUB_WORKSPACE}/.conancache"
+
+      # Set minimum deployment target version
+      export MACOSX_DEPLOYMENT_TARGET=10.15
+
+      # Build
+      mkdir build && cd build
+      cmake -DQT_BASE_DIR=$QT_BASE_DIR ../
+      cmake --build . --config Release
+
+  - name: Upload Raw Build Artifacts
+    if: ${{ inputs.cacheOnly == 'false' }}
+    uses: actions/upload-artifact@v4
+    with:
+      name: osx-${{ runner.arch }}-build-artifacts
+      path: |
+        ${{ github.workspace }}/build
+      retention-days: 1
