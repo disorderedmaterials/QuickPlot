@@ -1,12 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    future.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # future.url = "github:NixOS/nixpkgs/nixos-unstable";
     # qt-idaaas.url = "github:disorderedmaterials/qt-idaaas";
     nixGL-src.url = "github:guibou/nixGL";
     nixGL-src.flake = false;
   };
-  outputs = { self, nixpkgs, future, flake-utils, bundlers, nixGL-src }:
+  outputs = { self, nixpkgs, flake-utils, bundlers, nixGL-src }:
     let
 
       version = "0.1";
@@ -26,11 +26,10 @@
         ];
       check_libs = pkgs: with pkgs; [ gtest ];
 
-    in flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
+    in flake-utils.lib.eachDefaultSystem (system:
 
       let
         pkgs = import nixpkgs { inherit system; };
-        next = import future { inherit system; };
         nixGL = import nixGL-src { inherit pkgs; };
         qt = pkgs.qt6; # qt-idaaas.packages.${system};
       in {
@@ -56,7 +55,7 @@
             cmake-language-server
             distcc
             gdb
-            next.git-cliff
+            git-cliff
             nixfmt
             valgrind
           ]);
@@ -82,48 +81,6 @@
           '';
           QML_IMPORT_PATH =
             "${qt.qtdeclarative}/lib/qt-6/qml/:${qt.qt3d}/lib/qt-6/qml/:${qt.qtquick3d}/lib/qt-6/qml/";
-        };
-
-        apps = {
-          default =
-            flake-utils.lib.mkApp { drv = self.packages.${system}.library; };
-        };
-
-        packages = {
-          library = pkgs.stdenv.mkDerivation ({
-            inherit version;
-            pname = "mildred";
-            src = ./.;
-            buildInputs = base_libs pkgs ++ (gui_libs {
-              inherit pkgs;
-              q = qt;
-            });
-            nativeBuildInputs = [ pkgs.wrapGAppsHook ];
-
-            cmakeFlags = [ "-G Ninja -DBUILD_EXAMPLES:bool=true" ];
-            installPhase = ''
-              mkdir -p $out/bin
-              mv ./$out/bin/groups $out/bin/
-            '';
-
-            meta = with pkgs.lib; {
-              description = "Plot lib for 2D/3D";
-              homepage = "https://github.com/disorderedmaterials/plot";
-              license = licenses.gpl3;
-              maintainers = with maintainers; [ rprospero ];
-            };
-          });
-
-          singularity =
-            nixpkgs.legacyPackages.${system}.singularity-tools.buildImage {
-              name = "mildred-${version}";
-              diskSize = 1024 * 250;
-              memSize = 1024 * 2;
-              contents = [ self.packages.${system}.library ];
-              runScript = "${nixGL.nixGLIntel}/bin/nixGLIntel ${
-                  self.packages.${system}.library
-                }/bin/groups $@";
-            };
         };
       });
 }
