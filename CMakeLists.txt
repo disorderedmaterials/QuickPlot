@@ -60,9 +60,10 @@ endif(UNIX)
 if(APPLE)
   # Set some specific C++11 related options here (set_property below does not
   # seem to persist)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
 
-  add_definitions(-D_MAC)
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
+
+  # add_definitions(-D_MAC)
 endif(APPLE)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
