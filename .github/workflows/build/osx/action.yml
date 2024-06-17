@@ -5,36 +5,44 @@ runs:
   using: "composite"
   steps:
 
-  - name: Install Prerequisites
+  - name: Install nix
+    uses: cachix/install-nix-action@v27
+
+  - name: build executable
     shell: bash
     run: |
-      set -ex
-      sudo pip3 install conan aqtinstall
-      aqt install-qt --outputdir /tmp/qt mac desktop ${{ env.qtVersion }} -m qt3d
+      nix build .#quickPlot
 
-  - name: Build
-    shell: bash
-    run: |
-      set -ex
-      Qt6_DIR=/tmp/qt/${{ env.qtVersion }}/macos/lib/cmake/Qt6
-      QT_BASE_DIR=/tmp/qt/${{ env.qtVersion }}/macos
-      QTVER=${{ env.qtVersion }}
-      mkdir build
-      cd build
-      cmake ../ -DQT_BASE_DIR=$QT_BASE_DIR -DCMAKE_INSTALL_PREFIX:path=./QuickPlot-osx
-      make
-      make install
+  # - name: Install Prerequisites
+  #   shell: bash
+  #   run: |
+  #     set -ex
+  #     sudo pip3 install conan aqtinstall
+  #     aqt install-qt --outputdir /tmp/qt mac desktop ${{ env.qtVersion }} -m qt3d
 
-  - name: Create Zip
-    shell: bash
-    run: |
-      set -ex
-      mkdir packages
-      cd build
-      zip -9rv ../packages/QuickPlot-osx.zip QuickPlot-osx
+  # - name: Build
+  #   shell: bash
+  #   run: |
+  #     set -ex
+  #     Qt6_DIR=/tmp/qt/${{ env.qtVersion }}/macos/lib/cmake/Qt6
+  #     QT_BASE_DIR=/tmp/qt/${{ env.qtVersion }}/macos
+  #     QTVER=${{ env.qtVersion }}
+  #     mkdir build
+  #     cd build
+  #     cmake ../ -DQT_BASE_DIR=$QT_BASE_DIR -DCMAKE_INSTALL_PREFIX:path=./QuickPlot-osx
+  #     make
+  #     make install
 
-  - name: Upload Raw Build Artifacts
-    uses: actions/upload-artifact@v3
-    with:
-      name: packages
-      path: ${{ github.workspace }}/packages
+  # - name: Create Zip
+  #   shell: bash
+  #   run: |
+  #     set -ex
+  #     mkdir packages
+  #     cd build
+  #     zip -9rv ../packages/QuickPlot-osx.zip QuickPlot-osx
+
+  # - name: Upload Raw Build Artifacts
+  #   uses: actions/upload-artifact@v3
+  #   with:
+  #     name: packages
+  #     path: ${{ github.workspace }}/packages
