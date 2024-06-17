@@ -1,6 +1,11 @@
 name: Build
 description: Build OSX artifacts
 
+inputs:
+  qtVersion:
+    type: string
+    default: 6.4.2
+
 runs:
   using: "composite"
   steps:
@@ -24,7 +29,7 @@ runs:
     id: cache-qt
     uses: actions/cache@v4
     with:
-      key: osx-qt-${{ env.qtVersion }}
+      key: osx-qt-${{ inputs.qtVersion }}
       path: ${{ runner.temp }}/qt
 
   - name: Install Qt
@@ -32,7 +37,7 @@ runs:
     shell: bash
     run: |
       export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      aqt install-qt --outputdir ${{ runner.temp }}/qt mac desktop ${{ env.qtVersion }}
+      aqt install-qt --outputdir ${{ runner.temp }}/qt mac desktop ${{ inputs.qtVersion }}
 
   #
   # Main Build
@@ -55,8 +60,8 @@ runs:
 
       # Setup paths
       export PATH="$(python3 -m site --user-base)/bin:$PATH"
-      Qt6_DIR=${{ runner.temp }}/qt/${{ env.qtVersion }}/macos/lib/cmake/Qt6
-      QT_BASE_DIR=${{ runner.temp }}/qt/${{ env.qtVersion }}/macos
+      Qt6_DIR=${{ runner.temp }}/qt/${{ inputs.qtVersion }}/macos/lib/cmake/Qt6
+      QT_BASE_DIR=${{ runner.temp }}/qt/${{ inputs.qtVersion }}/macos
 
       # Set conan cache location
       conan config set storage.download_cache="${GITHUB_WORKSPACE}/.conancache"
