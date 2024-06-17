@@ -43,11 +43,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-# Set policy for automatic linkage of Qt libs to project
-cmake_policy(SET CMP0020 NEW)
-
-# Perform platform-specific setup #
-
 # -- Windows
 if(WIN32)
   # Add defines for Windows systems - NOMINMAX to prevent conflicts with
@@ -67,7 +62,6 @@ if(APPLE)
   # seem to persist)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 
-  set(CMAKE_OSX_ARCHITECTURES "x86_64")
   add_definitions(-D_MAC)
 endif(APPLE)
 
