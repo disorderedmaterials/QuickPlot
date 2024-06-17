@@ -26,12 +26,7 @@
         ];
       check_libs = pkgs: with pkgs; [ gtest ];
 
-    in flake-utils.lib.eachSystem [
-      "x86_64-linux"
-      "aarch64-linux"
-      "aarch64-darwin"
-      "x64_64-darwin"
-    ] (system:
+    in flake-utils.lib.eachDefaultSystem (system:
 
       let
         pkgs = import nixpkgs { inherit system; };
