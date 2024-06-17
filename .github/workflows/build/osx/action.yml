@@ -5,6 +5,9 @@ inputs:
   qtVersion:
     type: string
     default: 6.4.2
+  cacheOnly:
+    type: boolean
+    default: false
 
 runs:
   using: "composite"
