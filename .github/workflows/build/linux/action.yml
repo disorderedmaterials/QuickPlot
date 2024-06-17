@@ -12,7 +12,7 @@ runs:
   - name: build executable
     shell: bash
     run: |
-      nix build
+      nix build .#quickPlot
 
   # - name: Install Prerequisites
   #   shell: bash
