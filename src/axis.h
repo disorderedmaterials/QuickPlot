@@ -3,7 +3,6 @@
 #include "axisTickLabels.h"
 #include <QQuick3DGeometry>
 #include <QVector3D>
-#include <gtest/gtest.h>
 
 class Axis : public QQuick3DGeometry
 {
