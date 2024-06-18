@@ -55,17 +55,16 @@ runs:
       git diff
       git diff --quiet
 
-#  - name: Copyright Year
-#    condition: eq(0,1)
-#    shell: bash
-#    run: |
-#      set -ex
-#
-#      # Find all occurances of "YYYY Team QuickPlot and contributors" and replace YYYY with the current year
-#      find . -type f -not -path '.git/*' -exec sed -i "s/[0-9]{4} \(Team QuickPlot and contributors\)/$(date +%Y) \1/g" {} +
-#
-#      # Show the diff to give an indication of the issues in the CI log
-#      git diff
-#
-#      # Run quiet diff to fail the job if any changes were made (see man git-diff)
-#      git diff --quiet
+ - name: Copyright Year
+   shell: bash
+   run: |
+     set -ex
+
+     # Find all occurances of "YYYY Team QuickPlot and contributors" and replace YYYY with the current year
+     find . -type f -not -path '.git/*' -exec sed -i "s/[0-9]{4} \(Team QuickPlot and contributors\)/$(date +%Y) \1/g" {} +
+
+     # Show the diff to give an indication of the issues in the CI log
+     git diff
+
+     # Run quiet diff to fail the job if any changes were made (see man git-diff)
+     git diff --quiet

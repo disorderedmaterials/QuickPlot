@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) 2024 Team Dissolve and contributors
+
 #include "triangle.h"
 
 Point::Point(float a, float b, float c) : x(a), y(b), z(c) {}
