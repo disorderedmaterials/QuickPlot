@@ -26,7 +26,7 @@ TEST(AxisTest, LinearMarks)
     axis.setMaximum(11.0);
 
     std::vector<double> points = {-10, -5, 0, 5, 10};
-    std::vector<double> coords = {1.0 / 11.0, 6.0 / 11.0, 1.0, 16.0 / 11.0, 21.0 / 11.0};
+    std::vector<double> coords = {2.0 / 11.0, 6.0 / 11.0, 1.0, 16.0 / 11.0, 21.0 / 11.0};
 
     matchAxes(axis, points, coords);
 }

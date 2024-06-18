@@ -34,6 +34,7 @@
         nixGL = import nixGL-src { inherit pkgs; };
         qt = pkgs.qt6; # qt-idaaas.packages.${system};
       in {
+        checks.quickPlot = self.packages.quickPlot;
         packages.quickPlot = pkgs.stdenv.mkDerivation ({
           version = "0.0.1";
           pname = "quickPlot";
@@ -42,6 +43,7 @@
             inherit pkgs;
             q = qt;
           });
+          doCheck = true;
         });
         devShells.default = pkgs.stdenv.mkDerivation {
           name = "mildred-shell";
