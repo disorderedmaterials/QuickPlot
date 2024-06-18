@@ -14,7 +14,9 @@ AxisTickLabels *Axis::tickLabels() { return &tickLabels_; }
 
 bool Axis::direction() const { return direction_; }
 double Axis::minimum() const { return minimum_; }
+void Axis::setMinimum(const double value) { minimum_ = value; }
 double Axis::maximum() const { return maximum_; }
+void Axis::setMaximum(const double value) { maximum_ = value; }
 
 int Axis::tickCount() const { return tics_.size(); }
 

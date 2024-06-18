@@ -9,8 +9,8 @@ class Axis : public QQuick3DGeometry
     Q_OBJECT
     QML_NAMED_ELEMENT(Axis)
     Q_PROPERTY(double thickness MEMBER thickness_ NOTIFY dataChanged)
-    Q_PROPERTY(double minimum MEMBER minimum_ NOTIFY dataChanged)
-    Q_PROPERTY(double maximum MEMBER maximum_ NOTIFY dataChanged)
+    Q_PROPERTY(double minimum READ minimum WRITE setMinimum NOTIFY dataChanged)
+    Q_PROPERTY(double maximum READ maximum WRITE setMaximum NOTIFY dataChanged)
     Q_PROPERTY(bool direction MEMBER direction_ NOTIFY dataChanged)
     Q_PROPERTY(AxisTickLabels *tickLabels READ tickLabels NOTIFY dataChanged)
     Q_PROPERTY(int tickCount READ tickCount NOTIFY dataChanged)
@@ -21,7 +21,9 @@ class Axis : public QQuick3DGeometry
     AxisTickLabels *tickLabels();
     bool direction() const;
     double minimum() const;
+    void setMinimum(const double value);
     double maximum() const;
+    void setMaximum(const double value);
     int tickCount() const;
     double tick(int index) const;
     virtual double tickCoord(int index) const;

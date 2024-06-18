@@ -34,14 +34,16 @@
         nixGL = import nixGL-src { inherit pkgs; };
         qt = pkgs.qt6; # qt-idaaas.packages.${system};
       in {
+        checks.quickPlot = self.packages.quickPlot;
         packages.quickPlot = pkgs.stdenv.mkDerivation ({
           version = "0.0.1";
           pname = "quickPlot";
           src = ./.;
-          buildInputs = base_libs pkgs ++ (gui_libs {
+          buildInputs = base_libs pkgs ++ check_libs pkgs ++ (gui_libs {
             inherit pkgs;
             q = qt;
           });
+          doCheck = true;
         });
         devShells.default = pkgs.stdenv.mkDerivation {
           name = "mildred-shell";
