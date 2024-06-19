@@ -2,7 +2,7 @@ cmake_policy(SET CMP0054 NEW)
 find_package(GTest REQUIRED)
 include(GoogleTest)
 
-set(SOURCES axis.cpp)
+set(SOURCES axis.cpp triangles.cpp)
 add_executable(axis ${SOURCES})
 
 target_include_directories(
