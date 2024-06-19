@@ -13,13 +13,19 @@
 class PlotGeometry : public QQuick3DGeometry
 {
     Q_OBJECT
+    /** The width of the data point drawing */
     Q_PROPERTY(double thickness MEMBER thickness_ NOTIFY dataChanged)
+    /** The X coordinates of the data points in data space */
     Q_PROPERTY(QList<double> xs MEMBER xs_ NOTIFY dataChanged)
+    /** The Y coordinates of the data points in data space */
     Q_PROPERTY(QList<double> ys MEMBER ys_ NOTIFY dataChanged)
+    /** The X axis that the data is plotted against */
     Q_PROPERTY(Axis *xAxis MEMBER xAxis_ NOTIFY dataChanged)
+    /** The Y axis that the data is plotted against */
     Q_PROPERTY(Axis *yAxis MEMBER yAxis_ NOTIFY dataChanged)
 
     Q_SIGNALS:
+    /** The signal that is thrown when the data points have changed position in chart space */
     void dataChanged();
 
     protected:

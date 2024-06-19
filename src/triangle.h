@@ -7,9 +7,7 @@
 class Point
 {
     public:
-    /** A constructor that accepts the individual coordinates)
-        @param (a,b,c) The x,y,z coordinates of the point
-     */
+    /** A constructor that accepts the individual coordinates) */
     Point(float a = 0.0, float b = 0.0, float c = 0.0);
     /** @name Coordinates
         The location of the point */
@@ -20,7 +18,7 @@ class Point
     bool operator!=(const Point &other);
 };
 
-/** An individual triangle face in the meth.  */
+/** An individual triangle face in the mesh.  */
 class Triangle
 {
     public:
