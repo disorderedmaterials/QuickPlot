@@ -61,7 +61,6 @@
             gdb
             next.git-cliff
             nixfmt
-            python311Packages.breathe
             valgrind
           ]);
           shellHook = ''
