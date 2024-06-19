@@ -18,6 +18,19 @@ class Point
     bool operator!=(const Point &other);
 };
 
+/** A line segment between two vertices of a polygon */
+class Edge
+{
+    public:
+    /** The beginning point of the edge */
+    Point start;
+    /** The stopping point of the edge */
+    Point end;
+    /** Treat two edges as the corners of a bounding box and return
+        the bouning box of their union. */
+    Edge combine(const Edge &other) const;
+};
+
 /** An individual triangle face in the mesh.  */
 class Triangle
 {
@@ -34,4 +47,6 @@ class Triangle
         have enough space to write the vertex.
      */
     float *writeByteArray(float *p);
+    /** find the bounding box of the triangle and return as the diagonal from min to max */
+    Edge bounds() const;
 };
