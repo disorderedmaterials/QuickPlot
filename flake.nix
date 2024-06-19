@@ -57,9 +57,14 @@
             cmake-format
             cmake-language-server
             distcc
+            doxygen
             gdb
             next.git-cliff
             nixfmt
+            python311Packages.breathe
+            python311Packages.sphinx
+            python311Packages.sphinx-rtd-theme
+            sphinx
             valgrind
           ]);
           shellHook = ''
