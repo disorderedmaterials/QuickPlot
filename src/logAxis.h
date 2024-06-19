@@ -8,6 +8,7 @@
 #include <QQuick3DGeometry>
 #include <QVector3D>
 
+/** An axis with logarithmic scaling */
 class LogAxis : public Axis
 {
     Q_OBJECT

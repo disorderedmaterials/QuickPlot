@@ -7,6 +7,7 @@
 
 class Axis;
 
+/** A list model that provides the tick labels of the axis */
 class AxisTickLabels : public QAbstractListModel
 {
     Q_OBJECT
@@ -17,8 +18,7 @@ class AxisTickLabels : public QAbstractListModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
-    int tickCount() const;
-    void setTickCount(const int count);
+    /** Function to reset the model (and trigger redrawing all labels */
     void reset();
 
     private:

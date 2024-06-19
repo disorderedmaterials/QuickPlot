@@ -9,6 +9,7 @@
 #include <QVector3D>
 #include <vector>
 
+/** The base class for drawing data points on the plot */
 class PlotGeometry : public QQuick3DGeometry
 {
     Q_OBJECT
@@ -23,10 +24,28 @@ class PlotGeometry : public QQuick3DGeometry
 
     protected:
     PlotGeometry();
+    /** An array of polygon faces that would plot the given data
+        points.  The points should be in chart space (not data
+        space).*/
     virtual std::vector<Triangle> faces_(std::vector<Point> points) const;
+    /** Take a list of polygon faces and crop them so that nothing
+        extends outside of the charting space.  Triangles completely
+        outside the region are dropped while triangles partially
+        within the region are converted into a group of polygons
+        completely inside the bounds. */
     std::vector<Triangle> clip(const std::vector<Triangle> &ts) const;
+    /** Present the latest geometry to the renderer */
     void updateData();
+    /** The size of the plotting geometry */
     double thickness_ = 0.01;
+    /** @name Data
+        The coordinates in data space of the data points */
+    /**@{ The coordinates of the data point along this axis */
     QList<double> xs_, ys_;
+    /**@}*/
+    /** @name Axes
+        Pointers to the axes used to plot the data */
+    /**@{ The axes along which the data are plotted */
     Axis *xAxis_, *yAxis_;
+    /**@} */
 };
