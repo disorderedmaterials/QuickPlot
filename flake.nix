@@ -57,6 +57,7 @@
             cmake-format
             cmake-language-server
             distcc
+            doxygen
             gdb
             next.git-cliff
             nixfmt

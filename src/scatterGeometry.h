@@ -6,6 +6,8 @@
 #include "axis.h"
 #include "plotGeometry.h"
 
+/** A plotting style for individual square points on a scatter
+    plot. \todo Converts the squares to cubes for better 3D charts. */
 class ScatterGeometry : public PlotGeometry
 {
     Q_OBJECT

@@ -58,9 +58,13 @@ std::vector<Triangle> PlotGeometry::faces_([[maybe_unused]] std::vector<Point> p
 
 bool outOfBounds(const Point &p) { return p.x < -1 || p.x > 1 || p.y < -1 || p.y > 1 || p.z < -1 || p.z > 1; }
 
+/** A line segment between two vertices of a polygon */
 struct Edge
 {
-    Point start, end;
+    /** The beginning point of the edge */
+    Point start;
+    /** The stopping point of the edge */
+    Point end;
 };
 
 std::optional<Edge> clipEdge(const Edge &e)
