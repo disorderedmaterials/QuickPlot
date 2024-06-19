@@ -2,6 +2,7 @@
 // Copyright (c) 2024 Team Dissolve and contributors
 
 #include "plotGeometry.h"
+#include <algorithm>
 
 PlotGeometry::PlotGeometry() : xAxis_(nullptr), yAxis_(nullptr)
 {
@@ -43,9 +44,13 @@ void PlotGeometry::updateData()
         p = t.writeByteArray(p);
     }
 
+    std::vector<Edge> boxes(ts.size());
+    std::transform(ts.begin(), ts.end(), boxes.begin(), [](const auto x) { return x.bounds(); });
+    auto bounds = std::reduce(boxes.begin(), boxes.end(), boxes[0], [](const auto a, const auto b) { return a.combine(b); });
+
     setVertexData(vertexData);
     setStride(stride);
-    setBounds(QVector3D(-1.0f, -1.0f, 0.0f), QVector3D(+1.0f, +1.0f, 0.0f));
+    setBounds(QVector3D(bounds.start.x, bounds.start.y, bounds.start.z), QVector3D(bounds.end.x, bounds.end.y, bounds.end.z));
 
     // setPrimitiveType(QQuick3DGeometry::PrimitiveType::TriangleStrip);
 
@@ -57,15 +62,6 @@ void PlotGeometry::updateData()
 std::vector<Triangle> PlotGeometry::faces_([[maybe_unused]] std::vector<Point> ps) const { return {}; }
 
 bool outOfBounds(const Point &p) { return p.x < -1 || p.x > 1 || p.y < -1 || p.y > 1 || p.z < -1 || p.z > 1; }
-
-/** A line segment between two vertices of a polygon */
-struct Edge
-{
-    /** The beginning point of the edge */
-    Point start;
-    /** The stopping point of the edge */
-    Point end;
-};
 
 std::optional<Edge> clipEdge(const Edge &e)
 {
