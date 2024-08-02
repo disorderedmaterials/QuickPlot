@@ -7,7 +7,8 @@ import QtQuick.Dialogs
 import QtQuick3D
 import QtQuick3D.Helpers
 import QtQuick.Controls
-import com.projectdissolve
+import ProjectDissolve
+import "../ProjectDissolve"
 
 ApplicationWindow {
     id: root

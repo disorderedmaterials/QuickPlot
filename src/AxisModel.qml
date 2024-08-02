@@ -3,7 +3,7 @@
 
 import QtQuick
 import QtQuick3D
-import com.projectdissolve
+import ProjectDissolve
 
 Node {
     id: root

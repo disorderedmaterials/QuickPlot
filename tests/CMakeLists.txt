@@ -12,7 +12,7 @@ target_include_directories(
           ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 target_link_libraries(
   axis
-  PUBLIC unnamed
+  PUBLIC QuickPlot
   PRIVATE # External libs
           GTest::gtest_main Qt6::Core Qt6::Quick3D)
 

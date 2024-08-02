@@ -4,13 +4,14 @@
 #include "lineGeometry.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("./src/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/PlotDemo/main.qml")));
 
     return app.exec();
 }

@@ -134,5 +134,5 @@ void Axis::nudge(double delta)
 {
     minimum_ += delta;
     maximum_ += delta;
-    emit dataChanged();
+    Q_EMIT(dataChanged());
 }

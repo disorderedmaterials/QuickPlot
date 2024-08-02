@@ -51,7 +51,7 @@ class Axis : public QQuick3DGeometry
     Q_SIGNALS:
     void dataChanged();
 
-    public slots:
+    public Q_SLOTS:
     /** Shift the axis bounds by a given distance */
     virtual void nudge(double delta);
 

@@ -1,9 +1,10 @@
 qt_add_qml_module(
-  unnamed
+  QuickPlot
   URI
-  com.projectdissolve
+  ProjectDissolve
   VERSION
   1.0
+  STATIC
   SOURCES
   axis.h
   axis.cpp
@@ -19,17 +20,16 @@ qt_add_qml_module(
   scatterGeometry.h
   triangle.cpp
   QML_FILES
-  main.qml
   AxisModel.qml
   LineModel.qml
   ScatterModel.qml)
 
 target_include_directories(
-  unnamed PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
+  QuickPlot PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
                   ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 
 target_link_libraries(
-  unnamed
+  QuickPlot
   PUBLIC ${WHOLE_ARCHIVE_FLAG}
          # External libs
          Qt6::Widgets
@@ -39,12 +39,18 @@ target_link_libraries(
          Qt6::3DExtras
          Qt6::Quick)
 
-set_target_properties(unnamed PROPERTIES PUBLIC_HEADER lineGeometry.h)
+set_target_properties(QuickPlot PROPERTIES PUBLIC_HEADER lineGeometry.h)
 
-install(TARGETS unnamed)
+install(TARGETS QuickPlot)
 
 # Main target
-add_executable(demo main.cpp ${demo_MOC_SRCS})
+qt_add_executable(demo main.cpp)
+qt_add_qml_module(demo
+  VERSION 1.0
+  URI PlotDemo
+  QML_FILES
+  main.qml
+)
 
 target_include_directories(
   demo
@@ -52,7 +58,7 @@ target_include_directories(
           ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
           ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 
-target_link_libraries(demo PRIVATE unnamed Qt6::Widgets Qt6::Gui Qt6::Qml
+target_link_libraries(demo PRIVATE QuickPlot QuickPlotplugin Qt6::Widgets Qt6::Gui Qt6::Qml
                                    Qt6::Core Qt6::Quick3D)
 
 set_target_properties(demo PROPERTIES RUNTIME demo)
