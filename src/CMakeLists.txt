@@ -28,17 +28,6 @@ target_include_directories(
   QuickPlot PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
                   ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 
-target_link_libraries(
-  QuickPlot
-  PUBLIC ${WHOLE_ARCHIVE_FLAG}
-         # External libs
-         Qt6::Widgets
-         Qt6::Core
-         Qt6::3DCore
-         Qt6::3DRender
-         Qt6::3DExtras
-         Qt6::Quick)
-
 set_target_properties(QuickPlot PROPERTIES PUBLIC_HEADER lineGeometry.h)
 
 install(TARGETS QuickPlot)
