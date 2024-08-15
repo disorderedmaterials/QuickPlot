@@ -26,20 +26,22 @@ qt_add_qml_module(
 
 target_include_directories(
   QuickPlot PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
-                  ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
+                    ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 
 set_target_properties(QuickPlot PROPERTIES PUBLIC_HEADER lineGeometry.h)
 
-install(TARGETS QuickPlot)
+install(TARGETS QuickPlot QuickPlotplugin)
 
 # Main target
 qt_add_executable(demo main.cpp)
-qt_add_qml_module(demo
-  VERSION 1.0
-  URI PlotDemo
+qt_add_qml_module(
+  demo
+  VERSION
+  1.0
+  URI
+  PlotDemo
   QML_FILES
-  main.qml
-)
+  main.qml)
 
 target_include_directories(
   demo
@@ -47,8 +49,15 @@ target_include_directories(
           ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
           ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
 
-target_link_libraries(demo PRIVATE QuickPlot QuickPlotplugin Qt6::Widgets Qt6::Gui Qt6::Qml
-                                   Qt6::Core Qt6::Quick3D)
+target_link_libraries(
+  demo
+  PRIVATE QuickPlot
+          QuickPlotplugin
+          Qt6::Widgets
+          Qt6::Gui
+          Qt6::Qml
+          Qt6::Core
+          Qt6::Quick3D)
 
 set_target_properties(demo PROPERTIES RUNTIME demo)
 
