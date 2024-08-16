@@ -77,5 +77,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 # Add main library subdir
 add_subdirectory(src/)
 
-enable_testing()
-add_subdirectory(tests/)
+option(BUILD_TESTS "Build test suite" OFF)
+if(BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests/)
+endif(BUILD_TESTS)
