@@ -15,7 +15,7 @@ Axis::Axis() : minimum_(-1), maximum_(1), direction_(Axis::Direction::Y), thickn
 
 AxisTickLabels *Axis::tickLabels() { return &tickLabels_; }
 
-bool Axis::direction() const { return direction_; }
+Axis::Direction Axis::direction() const { return direction_; }
 double Axis::minimum() const { return minimum_; }
 void Axis::setMinimum(const double value) { minimum_ = value; }
 double Axis::maximum() const { return maximum_; }
@@ -62,49 +62,50 @@ void Axis::updateData()
     QByteArray vertexData(6 * stride, Qt::Initialization::Uninitialized);
     float *p = reinterpret_cast<float *>(vertexData.data());
 
-    if (direction_)
+    switch (direction_)
     {
-        *p++ = -1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-        *p++ = 1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-        *p++ = 1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
+        case Axis::Direction::X:
+            *p++ = -1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 0;
+            *p++ = 1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 0;
+            *p++ = 1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 0;
 
-        *p++ = 1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
-        *p++ = -1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
-        *p++ = -1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-    }
-    else
-    {
-        *p++ = -1.0 - thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
+            *p++ = 1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 0;
+            *p++ = -1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 0;
+            *p++ = -1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 0;
+            break;
+        case Axis::Direction::Y:
+            *p++ = -1.0 - thickness_;
+            *p++ = -1.0;
+            *p++ = 0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 1.0;
+            *p++ = 0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 1.0;
+            *p++ = 0;
 
-        *p++ = -1.0 - thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
+            *p++ = -1.0 - thickness_;
+            *p++ = -1.0;
+            *p++ = 0;
+            *p++ = -1.0 + thickness_;
+            *p++ = -1.0;
+            *p++ = 0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 1.0;
+            *p++ = 0;
+            break;
     }
 
     setVertexData(vertexData);

@@ -39,7 +39,7 @@ class Axis : public QQuick3DGeometry
 
     /** The direction in which the axis is pointing. \todo This needs
         to be a proper enum to handle three dimensions */
-    bool direction() const;
+    Direction direction() const;
     /** Get the minimum edge of the axis */
     double minimum() const;
     /** Set the minimum edge of the axis */
