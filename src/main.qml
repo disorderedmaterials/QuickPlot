@@ -53,7 +53,7 @@ ApplicationWindow {
             axis: Axis {
                 id: xAxis
 
-                direction: true
+                direction: Axis.X
                 thickness: 0.01
             }
         }
@@ -64,7 +64,7 @@ ApplicationWindow {
             axis: LogAxis {
                 id: yAxis
 
-                direction: false
+                direction: Axis.Y
                 maximum: 1.0
                 minimum: 0.01
                 thickness: 0.01

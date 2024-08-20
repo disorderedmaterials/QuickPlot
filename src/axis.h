@@ -15,12 +15,19 @@ class Axis : public QQuick3DGeometry
     Q_PROPERTY(double thickness MEMBER thickness_ NOTIFY dataChanged)
     Q_PROPERTY(double minimum READ minimum WRITE setMinimum NOTIFY dataChanged)
     Q_PROPERTY(double maximum READ maximum WRITE setMaximum NOTIFY dataChanged)
-    Q_PROPERTY(bool direction MEMBER direction_ NOTIFY dataChanged)
+    Q_PROPERTY(Direction direction MEMBER direction_ NOTIFY dataChanged)
     Q_PROPERTY(AxisTickLabels *tickLabels READ tickLabels NOTIFY dataChanged)
     Q_PROPERTY(int tickCount READ tickCount NOTIFY dataChanged)
 
     public:
     Axis();
+
+    enum Direction
+    {
+        Y,
+        X
+    };
+    Q_ENUMS(Direction)
 
     /** Translate data space values into plot space values.
         Subclasses will overload this method to enable different
@@ -65,7 +72,7 @@ class Axis : public QQuick3DGeometry
     virtual void updateTicks_();
     /** Update the axis display in response to changes in the data.*/
     void updateData();
-    bool direction_;
+    Direction direction_;
     /** The line thickness of the axis */
     double thickness_;
     AxisTickLabels tickLabels_;

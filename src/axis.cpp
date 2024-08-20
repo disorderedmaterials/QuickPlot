@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iostream>
 
-Axis::Axis() : minimum_(-1), maximum_(1), direction_(false), thickness_(0.001), tickLabels_(*this)
+Axis::Axis() : minimum_(-1), maximum_(1), direction_(Axis::Direction::Y), thickness_(0.001), tickLabels_(*this)
 {
     updateData();
     connect(this, &Axis::dataChanged, this, &Axis::updateData);
