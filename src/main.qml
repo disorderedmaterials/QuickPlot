@@ -70,6 +70,17 @@ ApplicationWindow {
                 thickness: 0.01
             }
         }
+        AxisModel {
+            color: "black"
+            scl: root.scale
+
+            axis: Axis {
+                id: zAxis
+
+                direction: Axis.Z
+                thickness: 0.01
+            }
+        }
     }
     View3D {
         id: graphView
@@ -93,6 +104,11 @@ ApplicationWindow {
                 xAxis.nudge(0.01 * event.pixelDelta.x);
                 yAxis.nudge(-0.01 * event.pixelDelta.y);
             }
+        }
+        OrbitCameraController {
+            anchors.fill: parent
+            camera: cameraOrthographicLeft
+            origin: standAloneScene
         }
     }
     Pane {

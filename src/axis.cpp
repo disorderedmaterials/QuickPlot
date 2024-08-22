@@ -106,6 +106,31 @@ void Axis::updateData()
             *p++ = 1.0;
             *p++ = 0;
             break;
+        case Axis::Direction::Z:
+            *p++ = -1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 0;
+
+            *p++ = -1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 4.0;
+
+            *p++ = -1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 4.0;
+
+            *p++ = -1.0;
+            *p++ = -1.0 - thickness_;
+            *p++ = 0;
+
+            *p++ = -1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 0;
+
+            *p++ = -1.0;
+            *p++ = -1.0 + thickness_;
+            *p++ = 4.0;
+            break;
     }
 
     setVertexData(vertexData);

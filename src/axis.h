@@ -24,6 +24,7 @@ class Axis : public QQuick3DGeometry
 
     enum Direction
     {
+        Z,
         Y,
         X
     };
