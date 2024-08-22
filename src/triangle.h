@@ -40,3 +40,26 @@ class Triangle
     Triangle operator+(const Vec3<float> &offset) const;
     Triangle operator-(const Vec3<float> &offset) const;
 };
+
+/** An individual quad face in the mesh.  */
+class Quad
+{
+    public:
+    Quad(Vec3<float> i = 0.0f, Vec3<float> j = 0.0f, Vec3<float> k = 0.0f, Vec3<float> l = 0.0f);
+    /** @name Vertices
+        The vertices of the quad */
+    /**@{ A vertex of the quad */
+    Vec3<float> a, b, c, d;
+    /**@} */
+    /** Write the quad into a vertex buffer
+
+        @param p A pointer into the vertex buffer.  The buffer must
+        have enough space to write six 3-vectors of floats.
+     */
+    float *writeByteArray(float *p);
+    /** find the bounding box of the triangle and return as the diagonal from min to max */
+    Edge bounds() const;
+    Quad flip() const;
+    Quad operator+(const Vec3<float> &offset) const;
+    Quad operator-(const Vec3<float> &offset) const;
+};
