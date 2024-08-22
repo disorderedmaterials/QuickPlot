@@ -62,4 +62,5 @@ class Quad
     Quad flip() const;
     Quad operator+(const Vec3<float> &offset) const;
     Quad operator-(const Vec3<float> &offset) const;
+    std::pair<Triangle, Triangle> asTriangles() const;
 };

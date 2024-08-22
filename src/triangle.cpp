@@ -110,3 +110,9 @@ Quad Quad::operator-(const Vec3<float> &offset) const
 }
 
 Quad Quad::flip() const { return Quad(a, d, c, b); }
+
+std::pair<Triangle, Triangle> Quad::asTriangles() const
+{
+    Triangle first(a, b, c), second(c, d, a);
+    return {first, second};
+}
