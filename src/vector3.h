@@ -358,3 +358,7 @@ template <class T> class Vec3
         return buffer;
     }
 };
+
+const Vec3<float> xhat = Vec3<float>{1, 0, 0};
+const Vec3<float> yhat = Vec3<float>{0, 1, 0};
+const Vec3<float> zhat = Vec3<float>{0, 0, 1};
