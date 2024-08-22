@@ -4,28 +4,13 @@
 #include "axis.h"
 #include <algorithm>
 
+#include "vector3.h"
 #include <cmath>
 #include <iostream>
 
-class Vec3
-{
-    public:
-    float x, y, z;
-    float *write(float *p)
-    {
-        *p++ = x;
-        *p++ = y;
-        *p++ = z;
-        return p;
-    }
-    Vec3 operator+(const Vec3 &other) { return Vec3{x + other.x, y + other.y, z + other.z}; }
-    Vec3 operator-(const Vec3 &other) { return Vec3{x - other.x, y - other.y, z - other.z}; }
-    Vec3 operator*(const float scale) { return Vec3{x * scale, y * scale, z * scale}; }
-};
-
-const Vec3 xhat = Vec3{1, 0, 0};
-const Vec3 yhat = Vec3{0, 1, 0};
-const Vec3 zhat = Vec3{0, 0, 1};
+const Vec3<float> xhat = Vec3<float>{1, 0, 0};
+const Vec3<float> yhat = Vec3<float>{0, 1, 0};
+const Vec3<float> zhat = Vec3<float>{0, 0, 1};
 
 Axis::Axis() : minimum_(-1), maximum_(1), direction_(Axis::Direction::Y), thickness_(0.001), tickLabels_(*this)
 {
@@ -70,7 +55,7 @@ void Axis::updateTicks_()
     }
 }
 
-float *draw_tube(float *p, float thickness, Vec3 v1, Vec3 v2, Vec3 n1, Vec3 n2)
+float *draw_tube(float *p, float thickness, Vec3<float> v1, Vec3<float> v2, Vec3<float> n1, Vec3<float> n2)
 {
     // -n1
     p = (v1 - (n1 + n2) * thickness).write(p);
@@ -144,16 +129,16 @@ void Axis::updateData()
     switch (direction_)
     {
         case Axis::Direction::X:
-            draw_tube(p, thickness_, Vec3{-1.0f - (float)thickness_, -1.0, 0}, Vec3{1.0f + (float)thickness_, -1.0, 0}, yhat,
-                      zhat);
+            draw_tube(p, thickness_, Vec3<float>{-1.0f - (float)thickness_, -1.0, 0},
+                      Vec3<float>{1.0f + (float)thickness_, -1.0, 0}, yhat, zhat);
             break;
         case Axis::Direction::Y:
-            draw_tube(p, thickness_, Vec3{-1.0, -1.0f - (float)thickness_, 0}, Vec3{-1.0, 1.0f + (float)thickness_, 0}, zhat,
-                      xhat);
+            draw_tube(p, thickness_, Vec3<float>{-1.0, -1.0f - (float)thickness_, 0},
+                      Vec3<float>{-1.0, 1.0f + (float)thickness_, 0}, zhat, xhat);
             break;
         case Axis::Direction::Z:
-            draw_tube(p, thickness_, Vec3{-1.0, -1.0, 0.0f - (float)thickness_}, Vec3{-1.0, -1.0, 4.0f + (float)thickness_},
-                      xhat, yhat);
+            draw_tube(p, thickness_, Vec3<float>{-1.0, -1.0, 0.0f - (float)thickness_},
+                      Vec3<float>{-1.0, -1.0, 4.0f + (float)thickness_}, xhat, yhat);
             break;
     }
 
