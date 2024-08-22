@@ -7,9 +7,20 @@
 #include <cmath>
 #include <iostream>
 
-struct Vec3
+class Vec3
 {
+    public:
     float x, y, z;
+    float *write(float *p)
+    {
+        *p++ = x;
+        *p++ = y;
+        *p++ = z;
+        return p;
+    }
+    Vec3 operator+(const Vec3 &other) { return Vec3{x + other.x, y + other.y, z + other.z}; }
+    Vec3 operator-(const Vec3 &other) { return Vec3{x - other.x, y - other.y, z - other.z}; }
+    Vec3 operator*(const float scale) { return Vec3{x * scale, y * scale, z * scale}; }
 };
 
 const Vec3 xhat = Vec3{1, 0, 0};
@@ -59,47 +70,45 @@ void Axis::updateTicks_()
     }
 }
 
-void draw_tube(float *p, float thickness, Vec3 v1, Vec3 v2, Vec3 n1, Vec3 n2)
+float *draw_tube(float *p, float thickness, Vec3 v1, Vec3 v2, Vec3 n1, Vec3 n2)
 {
-    bool a = false;
-    bool b = false;
-    for (auto i = 0; i < 4; ++i)
-    {
+    // -n1
+    p = (v1 - (n1 + n2) * thickness).write(p);
+    p = (v1 - (n1 - n2) * thickness).write(p);
+    p = (v2 - (n1 - n2) * thickness).write(p);
 
-        *p++ = v1.x - ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v1.y - ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v1.z - ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    p = (v2 - (n1 - n2) * thickness).write(p);
+    p = (v2 - (n1 + n2) * thickness).write(p);
+    p = (v1 - (n1 + n2) * thickness).write(p);
 
-        *p++ = v2.x - ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v2.y - ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v2.z - ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    // +n1
+    p = (v1 + (n1 + n2) * thickness).write(p);
+    p = (v1 + (n1 - n2) * thickness).write(p);
+    p = (v2 + (n1 - n2) * thickness).write(p);
 
-        *p++ = v2.x + ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v2.y + ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v2.z + ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    p = (v2 + (n1 - n2) * thickness).write(p);
+    p = (v2 + (n1 + n2) * thickness).write(p);
+    p = (v1 + (n1 + n2) * thickness).write(p);
 
-        *p++ = v2.x + ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v2.y + ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v2.z + ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    // +n2
+    p = (v1 - (n1 - n2) * thickness).write(p);
+    p = (v1 + (n1 + n2) * thickness).write(p);
+    p = (v2 - (n1 - n2) * thickness).write(p);
 
-        *p++ = v1.x + ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v1.y + ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v1.z + ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    p = (v2 + (n1 + n2) * thickness).write(p);
+    p = (v2 - (n1 - n2) * thickness).write(p);
+    p = (v1 + (n1 + n2) * thickness).write(p);
 
-        *p++ = v1.x - ((a ? n1.x : -n1.x) + (b ? n2.x : -n2.x)) * thickness;
-        *p++ = v1.y - ((a ? n1.y : -n1.y) + (b ? n2.y : -n2.y)) * thickness;
-        *p++ = v1.z - ((a ? n1.z : -n1.z) + (b ? n2.z : -n2.z)) * thickness;
+    // // -n2
+    p = (v1 + (n1 - n2) * thickness).write(p);
+    p = (v1 - (n1 + n2) * thickness).write(p);
+    p = (v2 - (n1 + n2) * thickness).write(p);
 
-        if (a)
-        {
-            a = false;
-            b = !b;
-        }
-        else
-        {
-            a = true;
-        }
-    }
+    p = (v2 - (n1 + n2) * thickness).write(p);
+    p = (v2 + (n1 - n2) * thickness).write(p);
+    p = (v1 + (n1 - n2) * thickness).write(p);
+
+    return p;
 }
 
 void Axis::updateData()
