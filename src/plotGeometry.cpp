@@ -28,10 +28,10 @@ void PlotGeometry::updateData()
     auto xs = xAxis_->convert(xs_);
     auto ys = yAxis_->convert(ys_);
 
-    std::vector<Point> ps(N);
+    std::vector<Vec3<float>> ps(N);
     for (int i = 0; i < N; i++)
     {
-        ps[i] = Point(xs[i], ys[i], 0.0);
+        ps[i] = Vec3<float>(xs[i], ys[i], 0.0);
     }
 
     auto ts = clip(faces_(ps));
@@ -59,9 +59,9 @@ void PlotGeometry::updateData()
     update();
 }
 
-std::vector<Triangle> PlotGeometry::faces_([[maybe_unused]] std::vector<Point> ps) const { return {}; }
+std::vector<Triangle> PlotGeometry::faces_([[maybe_unused]] std::vector<Vec3<float>> ps) const { return {}; }
 
-bool outOfBounds(const Point &p) { return p.x < -1 || p.x > 1 || p.y < -1 || p.y > 1 || p.z < -1 || p.z > 1; }
+bool outOfBounds(const Vec3<float> &p) { return p.x < -1 || p.x > 1 || p.y < -1 || p.y > 1 || p.z < -1 || p.z > 1; }
 
 std::optional<Edge> clipEdge(const Edge &e)
 {
@@ -180,7 +180,7 @@ std::vector<Triangle> PlotGeometry::clip(const std::vector<Triangle> &ts) const
     for (const auto &t : ts)
     {
         std::vector<Edge> edges = {{t.a, t.b}, {t.b, t.c}, {t.c, t.a}};
-        std::vector<Point> vertices;
+        std::vector<Vec3<float>> vertices;
         for (const auto &e : edges)
         {
             const auto clipped = clipEdge(e);

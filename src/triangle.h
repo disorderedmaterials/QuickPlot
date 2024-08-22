@@ -3,29 +3,16 @@
 
 #pragma once
 
-/** An individual point in 3D space. */
-class Point
-{
-    public:
-    /** A constructor that accepts the individual coordinates) */
-    Point(float a = 0.0, float b = 0.0, float c = 0.0);
-    /** @name Coordinates
-        The location of the point */
-    /**@{ The coordinate position */
-    float x, y, z;
-    /**@} */
-    bool operator==(const Point &other);
-    bool operator!=(const Point &other);
-};
+#include "vector3.h"
 
 /** A line segment between two vertices of a polygon */
 class Edge
 {
     public:
     /** The beginning point of the edge */
-    Point start;
+    Vec3<float> start;
     /** The stopping point of the edge */
-    Point end;
+    Vec3<float> end;
     /** Treat two edges as the corners of a bounding box and return
         the bouning box of their union. */
     Edge combine(const Edge &other) const;
@@ -35,11 +22,11 @@ class Edge
 class Triangle
 {
     public:
-    Triangle(Point i = 0.0, Point j = 0.0, Point k = 0.0);
+    Triangle(Vec3<float> i = 0.0f, Vec3<float> j = 0.0f, Vec3<float> k = 0.0f);
     /** @name Vertices
         The vertices of the triangle */
     /**@{ A vertex of the triangle */
-    Point a, b, c;
+    Vec3<float> a, b, c;
     /**@} */
     /** Write the triangle into a vertex buffer
 

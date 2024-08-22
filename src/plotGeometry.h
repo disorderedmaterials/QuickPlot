@@ -33,7 +33,7 @@ class PlotGeometry : public QQuick3DGeometry
     /** An array of polygon faces that would plot the given data
         points.  The points should be in chart space (not data
         space).*/
-    virtual std::vector<Triangle> faces_(std::vector<Point> points) const;
+    virtual std::vector<Triangle> faces_(std::vector<Vec3<float>> points) const;
     /** Take a list of polygon faces and crop them so that nothing
         extends outside of the charting space.  Triangles completely
         outside the region are dropped while triangles partially

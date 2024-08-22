@@ -18,5 +18,5 @@ class LineGeometry : public PlotGeometry
     LineGeometry();
 
     private:
-    std::vector<Triangle> faces_(std::vector<Point> points) const override;
+    std::vector<Triangle> faces_(std::vector<Vec3<float>> points) const override;
 };

@@ -7,7 +7,7 @@
 
 ScatterGeometry::ScatterGeometry() : PlotGeometry() {}
 
-std::vector<Triangle> ScatterGeometry::faces_(std::vector<Point> ps) const
+std::vector<Triangle> ScatterGeometry::faces_(std::vector<Vec3<float>> ps) const
 {
     const int N = ps.size();
 

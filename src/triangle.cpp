@@ -4,11 +4,6 @@
 #include "triangle.h"
 #include <algorithm>
 
-Point::Point(float a, float b, float c) : x(a), y(b), z(c) {}
-
-bool Point::operator==(const Point &other) { return x == other.x && y == other.y && z == other.z; }
-bool Point::operator!=(const Point &other) { return x != other.x || y != other.y || z != other.z; }
-
 Edge Edge::combine(const Edge &other) const
 {
     Edge result;
@@ -21,7 +16,7 @@ Edge Edge::combine(const Edge &other) const
     return result;
 }
 
-Triangle::Triangle(Point i, Point j, Point k) : a(i), b(j), c(k) {}
+Triangle::Triangle(Vec3<float> i, Vec3<float> j, Vec3<float> k) : a(i), b(j), c(k) {}
 
 Edge Triangle::bounds() const
 {
@@ -39,17 +34,8 @@ Edge Triangle::bounds() const
 
 float *Triangle::writeByteArray(float *p)
 {
-    *p++ = a.x;
-    *p++ = a.y;
-    *p++ = a.z;
-
-    *p++ = b.x;
-    *p++ = b.y;
-    *p++ = b.z;
-
-    *p++ = c.x;
-    *p++ = c.y;
-    *p++ = c.z;
-
+    p = a.write(p);
+    p = b.write(p);
+    p = c.write(p);
     return p;
 }
