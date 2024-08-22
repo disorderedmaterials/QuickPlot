@@ -108,6 +108,24 @@ float *draw_tube(float *p, float thickness, Vec3 v1, Vec3 v2, Vec3 n1, Vec3 n2)
     p = (v2 + (n1 - n2) * thickness).write(p);
     p = (v1 + (n1 - n2) * thickness).write(p);
 
+    // v1 cap
+    p = (v1 - (n1 + n2) * thickness).write(p);
+    p = (v1 + (n1 - n2) * thickness).write(p);
+    p = (v1 - (n1 - n2) * thickness).write(p);
+
+    p = (v1 + (n1 + n2) * thickness).write(p);
+    p = (v1 - (n1 - n2) * thickness).write(p);
+    p = (v1 + (n1 - n2) * thickness).write(p);
+
+    // v2 cap
+    p = (v2 + (n1 - n2) * thickness).write(p);
+    p = (v2 - (n1 + n2) * thickness).write(p);
+    p = (v2 - (n1 - n2) * thickness).write(p);
+
+    p = (v2 - (n1 - n2) * thickness).write(p);
+    p = (v2 + (n1 + n2) * thickness).write(p);
+    p = (v2 + (n1 - n2) * thickness).write(p);
+
     return p;
 }
 
@@ -120,7 +138,7 @@ void Axis::updateData()
 
     int stride = 3 * sizeof(float);
 
-    QByteArray vertexData(4 * 6 * stride, Qt::Initialization::Uninitialized);
+    QByteArray vertexData(6 * 6 * stride, Qt::Initialization::Uninitialized);
     float *p = reinterpret_cast<float *>(vertexData.data());
 
     switch (direction_)
