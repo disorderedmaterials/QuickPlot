@@ -36,4 +36,7 @@ class Triangle
     float *writeByteArray(float *p);
     /** find the bounding box of the triangle and return as the diagonal from min to max */
     Edge bounds() const;
+    Triangle flip() const;
+    Triangle operator+(const Vec3<float> &offset) const;
+    Triangle operator-(const Vec3<float> &offset) const;
 };

@@ -39,3 +39,23 @@ float *Triangle::writeByteArray(float *p)
     p = c.write(p);
     return p;
 }
+
+Triangle Triangle::operator+(const Vec3<float> &offset) const
+{
+    Triangle result;
+    result.a = a + offset;
+    result.b = b + offset;
+    result.c = c + offset;
+    return result;
+}
+
+Triangle Triangle::operator-(const Vec3<float> &offset) const
+{
+    Triangle result;
+    result.a = a - offset;
+    result.b = b - offset;
+    result.c = c - offset;
+    return result;
+}
+
+Triangle Triangle::flip() const { return Triangle(a, c, b); }

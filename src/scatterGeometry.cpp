@@ -15,22 +15,16 @@ std::vector<Triangle> ScatterGeometry::faces_(std::vector<Vec3<float>> ps) const
     for (int i = 0; i < N; i++)
     {
         Triangle t(ps[i], ps[i], ps[i]);
-        t.a.x -= thickness_;
-        t.a.y -= thickness_;
-        t.b.x += thickness_;
-        t.b.y -= thickness_;
-        t.c.x += thickness_;
-        t.c.y += thickness_;
-        ts[2 * i] = t;
+        t.a -= (xhat + yhat) * thickness_;
+        t.b += (xhat - yhat) * thickness_;
+        t.c += (xhat + yhat) * thickness_;
+        ts[2 * i] = t + zhat * thickness_;
 
         t = Triangle(ps[i], ps[i], ps[i]);
-        t.a.x -= thickness_;
-        t.a.y -= thickness_;
-        t.b.x += thickness_;
-        t.b.y += thickness_;
-        t.c.x -= thickness_;
-        t.c.y += thickness_;
-        ts[2 * i + 1] = t;
+        t.a -= (xhat + yhat) * thickness_;
+        t.b += (yhat + xhat) * thickness_;
+        t.c += (yhat - xhat) * thickness_;
+        ts[2 * i + 1] = t + zhat * thickness_;
     }
 
     return ts;
