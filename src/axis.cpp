@@ -144,13 +144,16 @@ void Axis::updateData()
     switch (direction_)
     {
         case Axis::Direction::X:
-            draw_tube(p, thickness_, Vec3{-1.0, -1.0, 0}, Vec3{1.0, -1.0, 0}, yhat, zhat);
+            draw_tube(p, thickness_, Vec3{-1.0f - (float)thickness_, -1.0, 0}, Vec3{1.0f + (float)thickness_, -1.0, 0}, yhat,
+                      zhat);
             break;
         case Axis::Direction::Y:
-            draw_tube(p, thickness_, Vec3{-1.0, -1.0, 0}, Vec3{-1.0, 1.0, 0}, zhat, xhat);
+            draw_tube(p, thickness_, Vec3{-1.0, -1.0f - (float)thickness_, 0}, Vec3{-1.0, 1.0f + (float)thickness_, 0}, zhat,
+                      xhat);
             break;
         case Axis::Direction::Z:
-            draw_tube(p, thickness_, Vec3{-1.0, -1.0, 0}, Vec3{-1.0, -1.0, 4}, xhat, yhat);
+            draw_tube(p, thickness_, Vec3{-1.0, -1.0, 0.0f - (float)thickness_}, Vec3{-1.0, -1.0, 4.0f + (float)thickness_},
+                      xhat, yhat);
             break;
     }
 
