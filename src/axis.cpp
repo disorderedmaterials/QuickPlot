@@ -76,7 +76,7 @@ void Axis::updateData()
             break;
         case Axis::Direction::Z:
             draw_tube(p, thickness_, Vec3<float>{-1.0, -1.0, 0.0f - (float)thickness_},
-                      Vec3<float>{-1.0, -1.0, 4.0f + (float)thickness_}, xhat, yhat);
+                      Vec3<float>{-1.0, -1.0, 2.0f + (float)thickness_}, xhat, yhat);
             break;
     }
 
