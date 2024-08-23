@@ -13,7 +13,7 @@ import "../ProjectDissolve"
 ApplicationWindow {
     id: root
 
-    property vector3d scale: Qt.vector3d(Math.min(graphView.width / 2.5, graphView.height / 2.5), Math.min(graphView.width / 2.5, graphView.height / 2.5), 200)
+    property vector3d scale: Qt.vector3d(Math.min(graphView.width / 2.5, graphView.height / 2.5), Math.min(graphView.width / 2.5, graphView.height / 2.5), Math.min(graphView.width / 2.5, graphView.height / 2.5))
 
     height: 600
     title: "Mildred QML Test"
@@ -53,7 +53,7 @@ ApplicationWindow {
             axis: Axis {
                 id: xAxis
 
-                direction: true
+                direction: Axis.X
                 thickness: 0.01
             }
         }
@@ -64,9 +64,20 @@ ApplicationWindow {
             axis: LogAxis {
                 id: yAxis
 
-                direction: false
+                direction: Axis.Y
                 maximum: 1.0
                 minimum: 0.01
+                thickness: 0.01
+            }
+        }
+        AxisModel {
+            color: "black"
+            scl: root.scale
+
+            axis: Axis {
+                id: zAxis
+
+                direction: Axis.Z
                 thickness: 0.01
             }
         }
@@ -93,6 +104,11 @@ ApplicationWindow {
                 xAxis.nudge(0.01 * event.pixelDelta.x);
                 yAxis.nudge(-0.01 * event.pixelDelta.y);
             }
+        }
+        OrbitCameraController {
+            anchors.fill: parent
+            camera: cameraOrthographicLeft
+            origin: standAloneScene
         }
     }
     Pane {

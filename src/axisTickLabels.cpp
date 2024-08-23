@@ -16,9 +16,11 @@ QVariant AxisTickLabels::data(const QModelIndex &index, int role) const
         case Qt::UserRole:
             return QString("%1").arg(parent_.tick(index.row()));
         case (Qt::UserRole + 1):
-            return parent_.direction() ? parent_.tickCoord(index.row()) : 0;
+            return (parent_.direction() == Axis::Direction::X) ? parent_.tickCoord(index.row()) : 0;
         case (Qt::UserRole + 2):
-            return parent_.direction() ? 0 : parent_.tickCoord(index.row());
+            return (parent_.direction() == Axis::Direction::Y) ? parent_.tickCoord(index.row()) : 0;
+        case (Qt::UserRole + 3):
+            return (parent_.direction() == Axis::Direction::Z) ? parent_.tickCoord(index.row()) : 0;
         default:
             return index.row();
     }
@@ -30,6 +32,7 @@ QHash<int, QByteArray> AxisTickLabels::roleNames() const
     roles[Qt::UserRole] = "tickLabel";
     roles[Qt::UserRole + 1] = "tickX";
     roles[Qt::UserRole + 2] = "tickY";
+    roles[Qt::UserRole + 3] = "tickZ";
     return roles;
 }
 

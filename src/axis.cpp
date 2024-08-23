@@ -4,10 +4,12 @@
 #include "axis.h"
 #include <algorithm>
 
+#include "solid.h"
+#include "vector3.h"
 #include <cmath>
 #include <iostream>
 
-Axis::Axis() : minimum_(-1), maximum_(1), direction_(false), thickness_(0.001), tickLabels_(*this)
+Axis::Axis() : minimum_(-1), maximum_(1), direction_(Axis::Direction::Y), thickness_(0.001), tickLabels_(*this)
 {
     updateData();
     connect(this, &Axis::dataChanged, this, &Axis::updateData);
@@ -15,7 +17,7 @@ Axis::Axis() : minimum_(-1), maximum_(1), direction_(false), thickness_(0.001), 
 
 AxisTickLabels *Axis::tickLabels() { return &tickLabels_; }
 
-bool Axis::direction() const { return direction_; }
+Axis::Direction Axis::direction() const { return direction_; }
 double Axis::minimum() const { return minimum_; }
 void Axis::setMinimum(const double value) { minimum_ = value; }
 double Axis::maximum() const { return maximum_; }
@@ -59,52 +61,23 @@ void Axis::updateData()
 
     int stride = 3 * sizeof(float);
 
-    QByteArray vertexData(6 * stride, Qt::Initialization::Uninitialized);
+    QByteArray vertexData(6 * 6 * stride, Qt::Initialization::Uninitialized);
     float *p = reinterpret_cast<float *>(vertexData.data());
 
-    if (direction_)
+    switch (direction_)
     {
-        *p++ = -1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-        *p++ = 1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-        *p++ = 1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
-
-        *p++ = 1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
-        *p++ = -1.0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 0;
-        *p++ = -1.0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 0;
-    }
-    else
-    {
-        *p++ = -1.0 - thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
-        *p++ = -1.0 - thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
-
-        *p++ = -1.0 - thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = -1.0;
-        *p++ = 0;
-        *p++ = -1.0 + thickness_;
-        *p++ = 1.0;
-        *p++ = 0;
+        case Axis::Direction::X:
+            draw_tube(p, thickness_, Vec3<float>{-1.0f - (float)thickness_, -1.0, 0},
+                      Vec3<float>{1.0f + (float)thickness_, -1.0, 0}, yhat, zhat);
+            break;
+        case Axis::Direction::Y:
+            draw_tube(p, thickness_, Vec3<float>{-1.0, -1.0f - (float)thickness_, 0},
+                      Vec3<float>{-1.0, 1.0f + (float)thickness_, 0}, zhat, xhat);
+            break;
+        case Axis::Direction::Z:
+            draw_tube(p, thickness_, Vec3<float>{-1.0, -1.0, 0.0f - (float)thickness_},
+                      Vec3<float>{-1.0, -1.0, 2.0f + (float)thickness_}, xhat, yhat);
+            break;
     }
 
     setVertexData(vertexData);

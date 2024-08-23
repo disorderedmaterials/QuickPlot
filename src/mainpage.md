@@ -34,16 +34,16 @@ at least two axes to plot.  The axis is declared via the AxisModel.
 ```qml
 axis: Axis {
     id: xAxis
-    direction: true
+    direction: Axis.X
     thickness: 0.01
 }
 ```
 
-The axis requires a direction (which will eventually be an Enum, but
-it currently just a boolean) and a thickness. To plot the axis in the
-chart, wrap it within an AxisModel.  It will need a `color` (probably
-black) and a `scl`, which represents the size of the canvas.  The
-scale ensures that the graph can be safely resized.
+The axis requires a direction (which can be X, Y, or Z) and a
+thickness. To plot the axis in the chart, wrap it within an AxisModel.
+It will need a `color` (probably black) and a `scl`, which represents
+the size of the canvas.  The scale ensures that the graph can be
+safely resized.
 
 ```qml
 AxisModel {

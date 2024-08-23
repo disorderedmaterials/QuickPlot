@@ -7,7 +7,7 @@
 
 LineGeometry::LineGeometry() : PlotGeometry() {}
 
-std::vector<Triangle> LineGeometry::faces_(std::vector<Point> ps) const
+std::vector<Triangle> LineGeometry::faces_(std::vector<Vec3<float>> ps) const
 {
     const int N = ps.size();
 

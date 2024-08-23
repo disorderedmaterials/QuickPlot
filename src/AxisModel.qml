@@ -31,7 +31,8 @@ Node {
         model: axis.tickLabels
 
         delegate: Node {
-            position: axis.direction ? Qt.vector3d(-root.scl.x + tickX * root.scl.x, -root.scl.y - 210, 0) : Qt.vector3d(-root.scl.x - 30, -root.scl.y - 180 + tickY * root.scl.y, 0)
+            eulerRotation: axis.direction == Axis.Z ? Qt.vector3d(0, 90.0, 0) : Qt.vector3d(0, 0, 0)
+            position: axis.direction == Axis.X ? Qt.vector3d(-root.scl.x + tickX * root.scl.x, -root.scl.y - 210, 0) : Qt.vector3d(-root.scl.x - 30, -root.scl.y - 180 + tickY * root.scl.y, tickZ * root.scl.x)
 
             Item {
                 anchors.centerIn: parent

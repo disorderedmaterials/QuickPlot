@@ -15,12 +15,20 @@ class Axis : public QQuick3DGeometry
     Q_PROPERTY(double thickness MEMBER thickness_ NOTIFY dataChanged)
     Q_PROPERTY(double minimum READ minimum WRITE setMinimum NOTIFY dataChanged)
     Q_PROPERTY(double maximum READ maximum WRITE setMaximum NOTIFY dataChanged)
-    Q_PROPERTY(bool direction MEMBER direction_ NOTIFY dataChanged)
+    Q_PROPERTY(Direction direction MEMBER direction_ NOTIFY dataChanged)
     Q_PROPERTY(AxisTickLabels *tickLabels READ tickLabels NOTIFY dataChanged)
     Q_PROPERTY(int tickCount READ tickCount NOTIFY dataChanged)
 
     public:
     Axis();
+
+    enum Direction
+    {
+        Z,
+        Y,
+        X
+    };
+    Q_ENUMS(Direction)
 
     /** Translate data space values into plot space values.
         Subclasses will overload this method to enable different
@@ -32,7 +40,7 @@ class Axis : public QQuick3DGeometry
 
     /** The direction in which the axis is pointing. \todo This needs
         to be a proper enum to handle three dimensions */
-    bool direction() const;
+    Direction direction() const;
     /** Get the minimum edge of the axis */
     double minimum() const;
     /** Set the minimum edge of the axis */
@@ -65,7 +73,7 @@ class Axis : public QQuick3DGeometry
     virtual void updateTicks_();
     /** Update the axis display in response to changes in the data.*/
     void updateData();
-    bool direction_;
+    Direction direction_;
     /** The line thickness of the axis */
     double thickness_;
     AxisTickLabels tickLabels_;

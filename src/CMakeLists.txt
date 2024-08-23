@@ -18,6 +18,8 @@ qt_add_qml_module(
   plotGeometry.cpp
   scatterGeometry.cpp
   scatterGeometry.h
+  solid.h
+  solid.cpp
   triangle.cpp
   QML_FILES
   AxisModel.qml

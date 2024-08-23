@@ -3,29 +3,16 @@
 
 #pragma once
 
-/** An individual point in 3D space. */
-class Point
-{
-    public:
-    /** A constructor that accepts the individual coordinates) */
-    Point(float a = 0.0, float b = 0.0, float c = 0.0);
-    /** @name Coordinates
-        The location of the point */
-    /**@{ The coordinate position */
-    float x, y, z;
-    /**@} */
-    bool operator==(const Point &other);
-    bool operator!=(const Point &other);
-};
+#include "vector3.h"
 
 /** A line segment between two vertices of a polygon */
 class Edge
 {
     public:
     /** The beginning point of the edge */
-    Point start;
+    Vec3<float> start;
     /** The stopping point of the edge */
-    Point end;
+    Vec3<float> end;
     /** Treat two edges as the corners of a bounding box and return
         the bouning box of their union. */
     Edge combine(const Edge &other) const;
@@ -35,11 +22,11 @@ class Edge
 class Triangle
 {
     public:
-    Triangle(Point i = 0.0, Point j = 0.0, Point k = 0.0);
+    Triangle(Vec3<float> i = 0.0f, Vec3<float> j = 0.0f, Vec3<float> k = 0.0f);
     /** @name Vertices
         The vertices of the triangle */
     /**@{ A vertex of the triangle */
-    Point a, b, c;
+    Vec3<float> a, b, c;
     /**@} */
     /** Write the triangle into a vertex buffer
 
@@ -49,4 +36,31 @@ class Triangle
     float *writeByteArray(float *p);
     /** find the bounding box of the triangle and return as the diagonal from min to max */
     Edge bounds() const;
+    Triangle flip() const;
+    Triangle operator+(const Vec3<float> &offset) const;
+    Triangle operator-(const Vec3<float> &offset) const;
+};
+
+/** An individual quad face in the mesh.  */
+class Quad
+{
+    public:
+    Quad(Vec3<float> i = 0.0f, Vec3<float> j = 0.0f, Vec3<float> k = 0.0f, Vec3<float> l = 0.0f);
+    /** @name Vertices
+        The vertices of the quad */
+    /**@{ A vertex of the quad */
+    Vec3<float> a, b, c, d;
+    /**@} */
+    /** Write the quad into a vertex buffer
+
+        @param p A pointer into the vertex buffer.  The buffer must
+        have enough space to write six 3-vectors of floats.
+     */
+    float *writeByteArray(float *p);
+    /** find the bounding box of the triangle and return as the diagonal from min to max */
+    Edge bounds() const;
+    Quad flip() const;
+    Quad operator+(const Vec3<float> &offset) const;
+    Quad operator-(const Vec3<float> &offset) const;
+    std::pair<Triangle, Triangle> asTriangles() const;
 };
