@@ -6,3 +6,13 @@
 #include "triangle.h"
 
 #include <vector>
+
+enum class MarkerType
+{
+    Cube,
+    Diamond // Really a tetrahedron
+};
+
+int markerSides(MarkerType type);
+
+std::vector<Triangle> makeMarker(MarkerType type, const Vec3<float> centre, float thickness);

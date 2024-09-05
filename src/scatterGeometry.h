@@ -20,4 +20,5 @@ class ScatterGeometry : public PlotGeometry
 
     private:
     std::vector<Triangle> faces_(std::vector<Vec3<float>> points) const override;
+    MarkerType marker_ = MarkerType::Diamond;
 };
