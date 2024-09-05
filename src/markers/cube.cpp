@@ -3,9 +3,11 @@
 
 #include "markers/cube.h"
 
-int CubeMarker::sides() const { return 6; }
+CubeMarker::CubeMarker() {}
 
-std::vector<Triangle> CubeMarker::makeCube(const Vec3<float> centre, float thickness) const
+int CubeMarker::sides() { return 12; }
+
+std::vector<Triangle> CubeMarker::makeCube(const Vec3<float> centre, float thickness)
 {
     std::vector<Triangle> ts(12);
 

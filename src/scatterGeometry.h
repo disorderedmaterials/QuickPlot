@@ -4,7 +4,9 @@
 #pragma once
 
 #include "axis.h"
+#include "markers/marker.h"
 #include "plotGeometry.h"
+#include <memory>
 
 /** A plotting style for individual square points on a scatter
     plot. \todo Converts the squares to cubes for better 3D charts. */

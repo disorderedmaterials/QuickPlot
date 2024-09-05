@@ -3,8 +3,10 @@
 
 #include "markers/marker.h"
 
-class CubeMarker : Marker
+class CubeMarker
 {
-    std::vector<Triangle> makeCube(const Vec3<float> centre, float thickness) const;
-    int sides() const;
+    public:
+    CubeMarker();
+    static std::vector<Triangle> makeCube(const Vec3<float> centre, float thickness);
+    static int sides();
 };
