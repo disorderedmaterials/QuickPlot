@@ -14,9 +14,12 @@ class ScatterGeometry : public PlotGeometry
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(ScatterGeometry)
+    Q_PROPERTY(MarkerType marker READ marker WRITE setMarker NOTIFY dataChanged)
 
     public:
     ScatterGeometry();
+    MarkerType marker() const;
+    void setMarker(MarkerType type);
 
     private:
     std::vector<Triangle> faces_(std::vector<Vec3<float>> points) const override;

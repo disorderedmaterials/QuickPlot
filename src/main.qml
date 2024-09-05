@@ -32,6 +32,7 @@ ApplicationWindow {
             id: plotLine
 
             color: colorDialog.selectedColor
+            marker: markerType.currentIndex
             scale: root.scale
             thickness: thickness.value
             xAxis: xAxis
@@ -164,6 +165,23 @@ ApplicationWindow {
                 value: 3
 
                 onMoved: renderButton.onClicked()
+            }
+            Label {
+                text: "Model"
+            }
+            ComboBox {
+                id: markerType
+
+                model: ListModel {
+                    ListElement {
+                        text: "Cube"
+                    }
+                    ListElement {
+                        text: "Diamond"
+                    }
+                }
+
+                onActivated: renderButton.onClicked()
             }
             ColorDialog {
                 id: colorDialog

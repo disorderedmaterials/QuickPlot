@@ -9,6 +9,7 @@ Model {
     id: root
 
     property color color
+    property string marker
     property double thickness
     property Axis xAxis
     property list<double> xs
@@ -18,6 +19,7 @@ Model {
     geometry: ScatterGeometry {
         id: plotLine
 
+        marker: root.marker
         thickness: root.thickness
         xAxis: root.xAxis
         xs: root.xs

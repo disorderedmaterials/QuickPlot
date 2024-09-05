@@ -8,6 +8,10 @@
 
 ScatterGeometry::ScatterGeometry() : PlotGeometry() {}
 
+MarkerType ScatterGeometry::marker() const { return marker_; }
+
+void ScatterGeometry::setMarker(MarkerType type) { marker_ = type; }
+
 std::vector<Triangle> ScatterGeometry::faces_(std::vector<Vec3<float>> ps) const
 {
     const int N = ps.size();
