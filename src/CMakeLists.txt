@@ -1,3 +1,5 @@
+add_subdirectory(markers/)
+
 qt_add_qml_module(
   QuickPlot
   URI
@@ -29,6 +31,8 @@ qt_add_qml_module(
 target_include_directories(
   QuickPlot PRIVATE ${PROJECT_SOURCE_DIR}/lib ${PROJECT_BINARY_DIR}/lib
                     ${Qt6Widgets_INCLUDE_DIRS} ${Qt6Quick3D_INCLUDE_DIRS})
+
+target_link_libraries(QuickPlot PRIVATE markers)
 
 set_target_properties(QuickPlot PROPERTIES PUBLIC_HEADER lineGeometry.h)
 
