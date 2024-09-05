@@ -5,7 +5,89 @@
 #include "triangle.h"
 #include <algorithm>
 
+#include <iostream>
+
 ScatterGeometry::ScatterGeometry() : PlotGeometry() {}
+
+std::vector<Triangle> makeCube(const Vec3<float> centre, float thickness)
+{
+    std::vector<Triangle> ts(12);
+
+    Quad t;
+    t = Quad(centre, centre, centre, centre);
+    t = t - zhat * thickness;
+    t.a -= (xhat + yhat) * thickness;
+    t.b += (xhat - yhat) * thickness;
+    t.c += (xhat + yhat) * thickness;
+    t.d -= (xhat - yhat) * thickness;
+    {
+        auto [first, second] = t.asTriangles();
+        ts[0] = first;
+        ts[1] = second;
+    }
+
+    t = Quad(centre, centre, centre, centre);
+    t = t + zhat * thickness;
+    t.a -= (xhat + yhat) * thickness;
+    t.b += (xhat - yhat) * thickness;
+    t.c += (xhat + yhat) * thickness;
+    t.d -= (xhat - yhat) * thickness;
+    {
+        auto [first, second] = t.flip().asTriangles();
+        ts[2] = first;
+        ts[3] = second;
+    }
+
+    t = Quad(centre, centre, centre, centre);
+    t = t + xhat * thickness;
+    t.a -= (zhat + yhat) * thickness;
+    t.b += (zhat - yhat) * thickness;
+    t.c += (zhat + yhat) * thickness;
+    t.d -= (zhat - yhat) * thickness;
+    {
+        auto [first, second] = t.asTriangles();
+        ts[4] = first;
+        ts[5] = second;
+    }
+
+    t = Quad(centre, centre, centre, centre);
+    t = t - xhat * thickness;
+    t.a -= (zhat + yhat) * thickness;
+    t.b += (zhat - yhat) * thickness;
+    t.c += (zhat + yhat) * thickness;
+    t.d -= (zhat - yhat) * thickness;
+    {
+        auto [first, second] = t.flip().asTriangles();
+        ts[6] = first;
+        ts[7] = second;
+    }
+
+    t = Quad(centre, centre, centre, centre);
+    t = t + yhat * thickness;
+    t.a -= (xhat + zhat) * thickness;
+    t.b += (xhat - zhat) * thickness;
+    t.c += (xhat + zhat) * thickness;
+    t.d -= (xhat - zhat) * thickness;
+    {
+        auto [first, second] = t.asTriangles();
+        ts[8] = first;
+        ts[9] = second;
+    }
+
+    t = Quad(centre, centre, centre, centre);
+    t = t - yhat * thickness;
+    t.a -= (xhat + zhat) * thickness;
+    t.b += (xhat - zhat) * thickness;
+    t.c += (xhat + zhat) * thickness;
+    t.d -= (xhat - zhat) * thickness;
+    {
+        auto [first, second] = t.flip().asTriangles();
+        ts[10] = first;
+        ts[11] = second;
+    }
+
+    return ts;
+}
 
 std::vector<Triangle> ScatterGeometry::faces_(std::vector<Vec3<float>> ps) const
 {
@@ -16,78 +98,10 @@ std::vector<Triangle> ScatterGeometry::faces_(std::vector<Vec3<float>> ps) const
     std::vector<Triangle> ts(SIDES * 2 * N);
     for (int i = 0; i < N; i++)
     {
-        Quad t;
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t - zhat * thickness_;
-        t.a -= (xhat + yhat) * thickness_;
-        t.b += (xhat - yhat) * thickness_;
-        t.c += (xhat + yhat) * thickness_;
-        t.d -= (xhat - yhat) * thickness_;
-        {
-            auto [first, second] = t.asTriangles();
-            ts[2 * SIDES * i] = first;
-            ts[2 * SIDES * i + 1] = second;
-        }
+        auto faces = makeCube(ps[i], thickness_);
+        std::copy(faces.begin(), faces.end(), ts.begin() + 2 * SIDES * i);
 
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t + zhat * thickness_;
-        t.a -= (xhat + yhat) * thickness_;
-        t.b += (xhat - yhat) * thickness_;
-        t.c += (xhat + yhat) * thickness_;
-        t.d -= (xhat - yhat) * thickness_;
-        {
-            auto [first, second] = t.flip().asTriangles();
-            ts[2 * SIDES * i + 2] = first;
-            ts[2 * SIDES * i + 3] = second;
-        }
-
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t + xhat * thickness_;
-        t.a -= (zhat + yhat) * thickness_;
-        t.b += (zhat - yhat) * thickness_;
-        t.c += (zhat + yhat) * thickness_;
-        t.d -= (zhat - yhat) * thickness_;
-        {
-            auto [first, second] = t.asTriangles();
-            ts[2 * SIDES * i + 4] = first;
-            ts[2 * SIDES * i + 5] = second;
-        }
-
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t - xhat * thickness_;
-        t.a -= (zhat + yhat) * thickness_;
-        t.b += (zhat - yhat) * thickness_;
-        t.c += (zhat + yhat) * thickness_;
-        t.d -= (zhat - yhat) * thickness_;
-        {
-            auto [first, second] = t.flip().asTriangles();
-            ts[2 * SIDES * i + 6] = first;
-            ts[2 * SIDES * i + 7] = second;
-        }
-
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t + yhat * thickness_;
-        t.a -= (xhat + zhat) * thickness_;
-        t.b += (xhat - zhat) * thickness_;
-        t.c += (xhat + zhat) * thickness_;
-        t.d -= (xhat - zhat) * thickness_;
-        {
-            auto [first, second] = t.asTriangles();
-            ts[2 * SIDES * i + 8] = first;
-            ts[2 * SIDES * i + 9] = second;
-        }
-
-        t = Quad(ps[i], ps[i], ps[i], ps[i]);
-        t = t - yhat * thickness_;
-        t.a -= (xhat + zhat) * thickness_;
-        t.b += (xhat - zhat) * thickness_;
-        t.c += (xhat + zhat) * thickness_;
-        t.d -= (xhat - zhat) * thickness_;
-        {
-            auto [first, second] = t.flip().asTriangles();
-            ts[2 * SIDES * i + 10] = first;
-            ts[2 * SIDES * i + 11] = second;
-        }
+        std::cout << faces.size() << std::endl;
     }
 
     return ts;
